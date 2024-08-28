@@ -1,6 +1,6 @@
 # CPE 2101L (OBJECT ORIENTED PROGRAMMING)
-> Check branches for codes of current activities.
-> For best compatilbility, compile under **JavSE-17** environment
+> Check branches for codes of current activities. <br>
+> For best compatibility, compile under **JavSE-17** environment
 
 <br><br>
 
@@ -11,7 +11,7 @@ This is an actively worked on repository which contains all code for the above-m
 <br>
 
 > [!NOTE]
-> This repository may change from a public to a private one without any warning. This is to comply to the pledge signed below:
+> This repository may change from a public to a private one without any warning. As per the academic integrity pledge:
 >
 > **COURSE SYLLABUS/COURSE POLICIES/Assignments, Quizzes, and Practical Activities**
 > <br>
