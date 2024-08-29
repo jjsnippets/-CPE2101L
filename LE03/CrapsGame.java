@@ -5,8 +5,8 @@ public class CrapsGame {
 		int random1, random2, sum = 0, prev;
 		
 //		debug: outer loop for multiple rounds
-		for(int i = 0; i < 10; i++) {
-			System.out.println();
+//		for(int i = 0; i < 10; i++) {
+//			System.out.println();
 
 			while (true) {
 				prev = sum;
@@ -34,6 +34,6 @@ public class CrapsGame {
 				} else
 					System.out.println("Point is " + sum);
 			}
-		}
+//		}
 	}
 }
