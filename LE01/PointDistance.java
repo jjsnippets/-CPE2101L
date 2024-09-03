@@ -1,3 +1,12 @@
+// LE 14 (activity 4): Aug 22 2024
+// implements distance formula between two points
+
+// Example program execution
+// Enter x1 and y1: 1 2
+// Enter x2 and y2: -3 4
+//
+// The distance between the two points is 4.47213595499958
+
 package LE01;
 import java.util.Scanner;
 

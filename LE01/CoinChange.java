@@ -1,4 +1,4 @@
-// activity 1: Aug 20 2024
+// LE11 (activity 1): Aug 20 2024
 // calculates change from cents value
 
 // Example program execution

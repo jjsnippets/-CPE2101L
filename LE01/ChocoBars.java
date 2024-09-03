@@ -1,3 +1,19 @@
+// LE13 (activity 3): Aug 22 2024
+// implements the Harris-Benedict equation
+
+// Example program execution
+// Enter weight (in pounds): 92
+// Enter height (in inches): 64
+// Enter age: 20
+//
+// BMR for man: 1335.20 calories
+// Equivalent to about 5.81 chocolate bars
+// A 92" 64lb 20 year old man needs at most 6 chocolate bars to maintain weight
+//
+// BMR for woman: 1257.40 calories
+// Equivalent to about 5.47 chocolate bars
+// A 92" 64lb 20 year old woman needs at most 6 chocolate bars to maintain weight
+
 package LE01;
 import java.util.Scanner;
 

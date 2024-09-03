@@ -1,3 +1,23 @@
+// LE 12 (activity 2): Aug 22 2024
+// multiplies the products of the digits in a number
+
+// Example program execution
+// Enter a number between 0 and 1000: 932
+//
+// 2
+// 3
+// 9
+// 
+// The product of all digits in 932 is 54
+
+// Intended program execution
+// Enter a number between 0 and 1000: 932
+// 9
+// 3
+// 2
+// 
+// The product of all digits in 932 is 54
+
 package LE01;
 import java.util.Scanner;
 
@@ -5,36 +25,25 @@ public class Multiplier {
 	public static void main(String[] args) {
 		// declarations
 		int number, result = 1, current;
-		int numDigits;
 		Scanner input = new Scanner(System.in);
 			
 		// user prompt and input
 		System.out.print("Enter a number between 0 and 1000: ");
 		number = input.nextInt();
+		int keep = number;
 		System.out.println();
 		
-		// computes products of digits (procedural code)
 		// lesson: do not overcomplicate solutions; sometimes, brute force is quicker than a general solution
-			// int thousands = 
-		
-		numDigits = 1 + (int) Math.log10(number);
-		System.out.println(numDigits);
 
-		for (int i = numDigits; i > 0; i--) {
-			System.out.println("new:" + number);
-			int powMask = (int) Math.pow(10, i - 1);
-			current = number % powMask;
+		for (; number > 0; number /= 10) {
+			current = number % 10;
 			result *= current;
-			number -= current * Math.pow(10, i - 1);
 			System.out.println(current);
 		}
 		
 		// output
 		System.out.println();
-		System.out.println(result);
-		
-		// debug
-		// System.out.printf("%d %d %d %d = %d", quarters, dimes, nickels, pennies, quarters * 25 + dimes * 10 + nickels * 5 + pennies);
+		System.out.println("The product of all digits in " + keep + " is " + result);
 		
 		// closing the Scanner object
 		input.close();

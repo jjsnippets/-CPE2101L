@@ -27,7 +27,7 @@ public class HangmanGame {
 				display.setCharAt(i, '*');
 			
 //			debug: prints answer and display
-			System.out.println(answer + " " + display);
+//			System.out.println(answer + " " + display);
 			
 			// loop for a guess
 			do {
