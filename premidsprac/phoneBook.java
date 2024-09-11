@@ -12,29 +12,41 @@ public class phoneBook {
 
 		do {
 			choice = displayMenu();
+			System.out.println();
 
 			switch (choice) {
 				case '1':
 					lists[Student.count] = new Student();
 					break;
 
-				// case '2':
-				// 	System.out.println("Enter the index of the student you want to remove: ");
-				// 	int id = input.nextInt();
-				// 	input.nextLine();
-				// 	for (int i = 0; i < Student.count; i++) {
-				// 		if (lists[i].id == id) {
-				// 			lists[i].removeStudent();
-				// 			break;
-				// 		}
-				// 	}
-				// 	break;
+				case '2':
+					System.out.print("Enter the first name of the student you want to remove: ");
+					String nmRem = input.nextLine().strip();
+					int idxRem = -1;
+					for (int i = 0; i < Student.count; i++) {
+						if (nmRem.compareTo(lists[i].fName) == 0){
+							idxRem = i;
+							break;
+						}
+					}
+
+					if (idxRem != -1) {
+						for (int i = idxRem; i < Student.count - 1; i++){
+							lists[i] = lists[i+1];
+						}
+						Student.count -= 1;
+					} else {
+						System.out.print("Name " + nmRem + " is not found!");
+					}
+
+					System.out.println();
 
 				case '3':
 					System.out.printf("%-10s %-10s %-10s %-10s\n", "First Name", "Last Name", "Age", "ID");
 					for (int i = 0; i < Student.count; i++) {
 						lists[i].rowDisplay();
 					}
+					System.out.println();
 					break;
 			
 			}

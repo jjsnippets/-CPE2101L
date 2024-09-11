@@ -6,8 +6,8 @@ public class Student {
     static int count = 0;
     String fName;
     String lName;
-    int age;
-    int id;
+    String age;
+    String id;
     Scanner input = new Scanner(System.in);
 
     public Student() {
@@ -16,13 +16,14 @@ public class Student {
         System.out.print("Enter last name: ");
         lName = input.nextLine();
         System.out.print("Enter age: ");
-        age = input.nextInt();
+        age = input.nextLine();
         System.out.print("Enter id: ");
-        id = input.nextInt();
-        input.nextLine();
+        id = input.nextLine();
         count++;
+        System.out.println();
     }
 
+    // debug method
     public void invDisplay() {
         System.out.println("First Name: " + fName);
         System.out.println("Last Name: " + lName);
@@ -31,15 +32,16 @@ public class Student {
     }
 
     public void rowDisplay() {
-        System.out.printf("%-10s %-10s %-10d %-10d\n", fName, lName, age, id);
+        System.out.printf("%-10s %-10s %-10s %-10s\n", fName, lName, age, id);
     }
 
-    public void removeStudent() {
-        fName = null;
-        lName = null;
-        age = 0;
-        id = 0;
-        count--;
-    }
+    // should first use String() to create a copy instead of null-ing out immediately
+    // public void removeStudent() {
+    //     fName = null;
+    //     lName = null;
+    //     age = null;
+    //     id = null;
+    //     count--;
+    // }
 
 }
