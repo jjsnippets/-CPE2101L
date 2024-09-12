@@ -32,6 +32,7 @@ public class Multiplier {
 		number = input.nextInt();
 		int keep = number;
 		System.out.println();
+		input.close();
 		
 		// lesson: do not overcomplicate solutions; sometimes, brute force is quicker than a general solution
 
@@ -44,8 +45,5 @@ public class Multiplier {
 		// output
 		System.out.println();
 		System.out.println("The product of all digits in " + keep + " is " + result);
-		
-		// closing the Scanner object
-		input.close();
 	}
 }

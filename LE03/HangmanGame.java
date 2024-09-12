@@ -61,5 +61,7 @@ public class HangmanGame {
 			
 		// repeat when input is not n or N
 		} while ((repeat != 'n') && (repeat != 'N'));
+		
+		input.close();
 	}
 }
