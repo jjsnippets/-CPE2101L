@@ -22,20 +22,20 @@ public class MainExec {
 			mode = screens();
 			
 			switch (mode) {
-				case 1:
+				case '1':
 					
 					break;
 					
-				case 2:
+				case '2':
 					do {
 						selection = technicianScreen(technicians.length);
 						
 						switch (selection) {
-							case 1:
+							case '1':
 								// technician mode
 								break;
 								
-							case 2:
+							case '2':
 								System.out.println("Leaving technician mode...");
 								System.out.println();
 								break;
@@ -46,14 +46,14 @@ public class MainExec {
 								break;
 								
 						} // end switch
-					} while (selection != 2);
+					} while (selection != '2');
 					break;
 				
-				case 3:
+				case '3':
 					
 					break;
 					
-				case 4:
+				case '4':
 					break;
 					
 				default:
@@ -63,7 +63,7 @@ public class MainExec {
 			
 			} // end switch
 			
-		} while (mode != 4);
+		} while (mode != '4');
 		
 		System.out.println("Turning off...");
 		System.out.println();
