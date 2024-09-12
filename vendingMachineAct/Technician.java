@@ -3,6 +3,10 @@ package vendingMachineAct;
 public class Technician extends Person{
 	private int id;
 	private Drink[] pallete;
+
+	public Technician(String n) {
+		super(n, 0);
+	}
 	
 	public Drink[] getPallete() {
 		return pallete;
@@ -26,6 +30,21 @@ public class Technician extends Person{
 	
 	public void collectCoins() {
 		// code
+	}
+	
+	public int matchTechnician(Technician[] names, String name) {
+		
+		int idx = -1;
+		for(int i = 0; i < names.length; i++) {
+			if (names[i].getName().equalsIgnoreCase(name)) {
+				idx = i;
+				break;
+			}
+		}
+		
+		return idx;
+		
+		
 	}
 
 
