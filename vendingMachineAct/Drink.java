@@ -4,7 +4,13 @@ public class Drink {
 	private String fullName;
 	private int price;
 	private int amount;
-	
+
+	public Drink(String n, int p, int a) {
+		this.setFullName(n);
+		this.setPrice(p);
+		this.setAmount(a);
+	}
+
 	public String getFullName() {
 		return fullName;
 	}
@@ -27,15 +33,16 @@ public class Drink {
 	}
 
 	public static void printDrinks(Drink[] drinks, int count){
-		System.out.printf("%20s %10s %10s\n", "Drink", "Price", "Avaialable");
+		System.out.printf("%-20s %-10s %-10s\n", "Drink", "Price", "Avaialable");
 		for(int i = 0; i < count; i++) {
-			System.out.printf("%20s %10d %10d\n", drinks[i].getFullName(), drinks[i].getPrice(), drinks[i].getAmount());
+			System.out.printf("%-20s %-10d %-10d\n", drinks[i].getFullName(), drinks[i].getPrice(), drinks[i].getAmount());
 		}
+		System.out.println();
 	}
 
 	public static int matchDrinks(Drink[] drinks, int count, String name) {
 		// returns index of drink if found, provides the next available slot if not
-		int idx = 0;
+		int idx = count;
 		for(int i = 0; i < count; i++) {
 			if (drinks[i].getFullName().equalsIgnoreCase(name)) {
 				idx = i;

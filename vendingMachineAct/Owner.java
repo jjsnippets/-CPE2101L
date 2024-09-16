@@ -200,7 +200,7 @@ public class Owner extends Person {
 			System.out.println("[1] See list of machines");
 			System.out.println("[2] Add new machine");
 			// System.out.println("[3] Remove a machine");
-			System.out.println("[4] Collect profit from machine");
+			// System.out.println("[4] Collect profit from machine");
 			System.out.println("[5] Exit as " + owner.getName());
 			// System.out.println("[6] See logs of machine");
 			// System.out.println("[7] Change password");

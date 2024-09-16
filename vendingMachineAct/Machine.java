@@ -45,8 +45,10 @@ public class Machine {
 	public int getDrinkCount() {
 		return drinkCount;
 	}
-	
 
+	public void incDrinkCount() {
+		this.drinkCount++;
+	}
 
 	public String getLabel() {
 		return label;
@@ -194,7 +196,7 @@ public class Machine {
 					break;
 					
 				case '2': // refill inventory
-					idx = refillInventory(machine.getDrinks(), machine.getDrinkCount());
+					idx = machine.refillInventory();
 					
 
 
@@ -217,27 +219,59 @@ public class Machine {
 		} while (selection != '3');
 	}
 
-	public static int refillInventory(Drink[] drinks, int count) {
+	public int refillInventory() {
 		// refill inventory of drinks
 
-		int idx;
+		int idx, count = getCount(), drinkCount = this.getDrinkCount();
 		String name;
-		int amount;
-		Drink.printDrinks(drinks, count);
+		int amount, price;
+		char check;
+		Drink[] drinks = this.getDrinks();
+
+		Drink.printDrinks(drinks, drinkCount);
 
 		System.out.print("Name of drink >> ");
 		name = input.nextLine();
-		
-		idx = Drink.matchDrink(drinks, count, name);
-		if (idx == -1) {
-			System.out.println("Drink not found!");
+
+		idx = Drink.matchDrinks(drinks, drinkCount, name);
+
+		if (idx == drinkCount){
+			System.out.println("Are you sure you want to add a new drink?");
+			System.out.print("(y/n) >> ");
+
+			check = input.nextLine().charAt(0);
 			System.out.println();
-			return;
+
+			if (check == 'n') {
+				System.out.println("Drink creation cancelled!");
+				System.out.println();
+				return -1;
+			}
+
+			System.out.print("Set price of " + name + " >> ");
+			price = input.nextInt();
+			System.out.print("Number of " + name + " to stock >> ");
+			amount = input.nextInt();
+			input.nextLine();
+			System.out.println();
+
+			drinks[idx] = new Drink(name, price, amount);
+			this.incDrinkCount();
+
+			System.out.println("Added " + drinks[idx].getFullName() + " to " + this.getLabel() + "!");
+			System.out.println();
+
+		} else {
+			System.out.print("Number of " + name + " to stock >> ");
+			amount = input.nextInt();
+			input.nextLine();
+			System.out.println();
+
+			drinks[idx].setAmount(drinks[idx].getAmount() + amount);
+			System.out.println("Refilled " + drinks[idx].getFullName() + " by " + amount + "!");
+			System.out.println();
 		}
-		System.out.print("Amount to refill >> ");
-		amount = input.nextInt();
-		drinks[idx].setAmount(drinks[idx].getAmount() + amount);
-		System.out.println("Refilled " + drinks[idx].getFullName() + " by " + amount + "!");
-		System.out.println();
+		
+		return 1;
 	}
 }

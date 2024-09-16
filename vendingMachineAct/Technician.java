@@ -63,7 +63,7 @@ public class Technician extends Person{
 		return idx;
 	}
 
-	public static void technicianScreen() {
+	public static void technicianScreen(Machine[] machines) {
 		char selection;
 
 		do {
@@ -79,6 +79,7 @@ public class Technician extends Person{
 					System.out.print("Enter name >> ");
 					String name = input.nextLine();
 					System.out.println();
+					existingTechnicianMenu(name, machines);
 					break;
 					
 				case '2':
@@ -120,7 +121,7 @@ public class Technician extends Person{
 				case '2': // refill inventory
 					idx = Machine.loginMachineMenu(machines);
 					if (idx == -1) break;
-					
+
 					Machine.existingMachineMenu(machines[idx]);
 					break;
 					

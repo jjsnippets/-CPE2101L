@@ -27,7 +27,7 @@ public class MainExec {
 					break;
 					
 				case '2': // technician mode
-					Technician.technicianScreen();
+					Technician.technicianScreen(machines);
 					break;
 				
 				case '3': // owner mode
