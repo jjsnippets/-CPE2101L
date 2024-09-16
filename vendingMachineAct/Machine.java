@@ -5,8 +5,9 @@ import java.util.Scanner;
 public class Machine {
 	static Scanner input = new Scanner(System.in);
 	private static int count = 0;
+	private int drinkCount = 0;
 	private String label, owned, password;
-	private Drink[] stock;
+	private Drink[] stock = new Drink[MainExec.MAX_OBJECTS];
 	private int coins;
 
 	public Machine(String l, String o, String p) {
@@ -37,9 +38,15 @@ public class Machine {
 		Machine.count--;
 	}
 	
-	public Drink[] showDrinks() {
+	public Drink[] getDrinks() {
 		return stock;
 	}
+
+	public int getDrinkCount() {
+		return drinkCount;
+	}
+	
+
 
 	public String getLabel() {
 		return label;
@@ -69,6 +76,18 @@ public class Machine {
 		// returns 1 if password matches, 0 if not
 		if (this.getPassword().equals(password)) return 1;
 		return 0;
+	}
+
+	public static int matchMachine(Machine[] machines, String label) {
+		// returns index of machine if found, -1 if not
+		int idx = -1;
+		for(int i = 0; i < Machine.getCount(); i++) {
+			if (machines[i].getLabel().equalsIgnoreCase(label)) {
+				idx = i;
+				break;
+			}
+		}
+		return idx;
 	}
 
 	public static void printMachines(Machine[] machines) {
@@ -119,5 +138,106 @@ public class Machine {
 			return -1;
 
 		}
+	}
+
+	public static int loginMachineMenu(Machine[] machines){
+		// returns index of machine if successful, -1 if not
+
+		String label, pass;
+		int idx, verified;
+		printMachines(machines);
+
+		System.out.print("Name of machine >> ");
+		label = input.nextLine();
+
+		idx = matchMachine(machines, label);
+
+		if (idx == -1) {
+			System.out.println("Machine not found!");
+			System.out.println();
+			return -1;
+		}
+
+		System.out.print("Enter password >> ");
+		pass = input.nextLine();
+		System.out.println();
+
+		verified = machines[idx].passwordCheck(pass);
+
+		if (verified == 1) {
+			System.out.println("Login successful!");
+			System.out.println();
+			return idx;
+		} else {
+			System.out.println("Incorrect password!");
+			System.out.println();
+			return -1;
+		}
+	}
+
+	public static void existingMachineMenu(Machine machine) {
+		char selection;
+		int idx;
+		do {
+			System.out.println("=== Machine Mode ===");
+			System.out.println("[1] See list of drinks");
+			System.out.println("[2] Refill inventory of drink");
+			System.out.println("[3] Exit machine mode");
+			System.out.print(" >> ");
+			
+			selection = input.nextLine().toLowerCase().charAt(0);
+			System.out.println();
+			
+			switch (selection) {
+				case '1': // see list of drinks
+					Drink.printDrinks(machine.getDrinks(), machine.getDrinkCount());
+					break;
+					
+				case '2': // refill inventory
+					idx = refillInventory(machine.getDrinks(), machine.getDrinkCount());
+					
+
+
+					if (idx == -1) break;
+					
+					// Drink.existingDrinkMenu(machine.showDrinks()[idx]);
+					break;
+					
+				case '3':
+					System.out.println("Leaving machine mode...");
+					System.out.println();
+					break;
+					
+				default:
+					System.out.println("Invalid selection [" + selection + "]!");
+					System.out.println();
+					break;
+					
+			} // end switch
+		} while (selection != '3');
+	}
+
+	public static int refillInventory(Drink[] drinks, int count) {
+		// refill inventory of drinks
+
+		int idx;
+		String name;
+		int amount;
+		Drink.printDrinks(drinks, count);
+
+		System.out.print("Name of drink >> ");
+		name = input.nextLine();
+		
+		idx = Drink.matchDrink(drinks, count, name);
+		if (idx == -1) {
+			System.out.println("Drink not found!");
+			System.out.println();
+			return;
+		}
+		System.out.print("Amount to refill >> ");
+		amount = input.nextInt();
+		drinks[idx].setAmount(drinks[idx].getAmount() + amount);
+		System.out.println("Refilled " + drinks[idx].getFullName() + " by " + amount + "!");
+		System.out.println();
 	}
 }

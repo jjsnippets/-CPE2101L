@@ -2,6 +2,8 @@ package vendingMachineAct;
 
 import java.util.Scanner;
 
+import javax.crypto.Mac;
+
 public class Technician extends Person{
 	static Scanner input = new Scanner(System.in);
 	static private int count = 0;
@@ -74,7 +76,9 @@ public class Technician extends Person{
 
 			switch (selection) {
 				case '1':
-					// technician mode
+					System.out.print("Enter name >> ");
+					String name = input.nextLine();
+					System.out.println();
 					break;
 					
 				case '2':
@@ -90,4 +94,49 @@ public class Technician extends Person{
 			} // end switch
 		} while (selection != '2');
 	}
+
+	public static int existingTechnicianMenu(String name, Machine[] machines) {
+		System.out.println("Welcome " + name + "!");
+		System.out.println();
+
+		char selection;
+		int idx;
+		
+		do {
+			System.out.println("=== Technician Mode ===");
+			System.out.println("[1] See list of machines");
+			System.out.println("[2] Refill inventory of machine");
+			System.out.println("[3] Exit technician mode");
+			System.out.print(" >> ");
+			
+			selection = input.nextLine().toLowerCase().charAt(0);
+			System.out.println();
+			
+			switch (selection) {
+				case '1': // see list of machines
+					Machine.printMachines(machines);
+					break;
+					
+				case '2': // refill inventory
+					idx = Machine.loginMachineMenu(machines);
+					if (idx == -1) break;
+					
+					Machine.existingMachineMenu(machines[idx]);
+					break;
+					
+				case '3': // exit technician mode
+					break;
+					
+				default:
+					System.out.println("Invalid selection [" + selection + "]!");
+					System.out.println();
+					break;
+					
+			} // end switch
+		} while (selection != '3');
+
+		return -1;
+	}
+
+
 }

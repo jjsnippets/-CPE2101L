@@ -210,7 +210,7 @@ public class Owner extends Person {
 			System.out.println();
 
 			switch(selection) {
-				case '1':
+				case '1': // see list of machines
 					Machine.printMachines(machines);
 					break;
 
