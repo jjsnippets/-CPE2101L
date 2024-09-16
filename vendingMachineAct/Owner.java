@@ -10,6 +10,7 @@ public class Owner extends Person {
 	public Owner(String n, String p) {
 		super(n, 0);
 		this.setPassword(p);
+		Owner.incCount();
 	}
 
 	static public int getCount() {
@@ -24,6 +25,14 @@ public class Owner extends Person {
 		Owner.count--;
 	}
 
+	public int getCoins() {
+		return this.getWallet();
+	}
+
+	public void setCoins(int coins) {
+		this.setWallet(coins);
+	}
+
 	public String getPassword() {
 		return password;
 	}
@@ -33,11 +42,13 @@ public class Owner extends Person {
 	}
 
 	public int passwordCheck(String password) {
+		// returns 1 if password matches, 0 if not
 		if (this.getPassword().equals(password)) return 1;
 		return 0;
 	}
 
 	static public int matchOwner(Owner[] owners, String name) {
+		// returns index of owner if found, -1 if not
 		int idx = -1;
 		for(int i = 0; i < Owner.getCount(); i++) {
 			if (owners[i].getName().equalsIgnoreCase(name)) {
@@ -61,7 +72,53 @@ public class Owner extends Person {
 		System.out.println();
 	}
 
+	static public void ownerScreen(Owner[] owners, Machine[] machines) {
+		int idx;
+		char selection;
+		
+		do {
+			System.out.println("=== Owner Mode ===");
+			System.out.println("[1] Create new owner");
+			System.out.println("[2] Log in as an existing owner");
+			System.out.println("[3] Exit owner mode");
+			System.out.print(" >> ");
+			
+			selection = input.nextLine().toLowerCase().charAt(0);
+			System.out.println();
+			
+			switch (selection) {
+				case '1': // create new owner
+					idx = Owner.newOwnerMenu(owners);
+					if (idx == -1) break;
+
+					Owner.existingOwnerMenu(owners[idx], machines);
+					break;
+
+				case '2': // owner mode
+					idx = Owner.loginOwnerMenu(owners);
+					if (idx == -1) break;
+
+					Owner.existingOwnerMenu(owners[idx], machines);
+					break;
+				
+				case '3': // exit owner mode
+					break;
+					
+				default:
+					System.out.println("Invalid selection [" + selection + "]!");
+					System.out.println();
+					break;
+					
+			} // end switch
+		} while (selection != '3');
+
+		System.out.println("Exiting owner mode...");
+		System.out.println();
+
+	}
+
 	static public int newOwnerMenu(Owner[] owners) {
+		// returns index of new owner if successful, -1 if not
 
 		String name, pass;
 		char check;
@@ -84,11 +141,10 @@ public class Owner extends Person {
 
 		if (check == 'y') {
 			owners[Owner.count] = new Owner(name, pass);
-			Owner.incCount();
 			System.out.println("New owner created!");
 			System.out.println();
 
-			return Owner.getCount();
+			return Owner.getCount() - 1;
 
 		} else {
 			System.out.println("New owner creation cancelled!");
@@ -99,6 +155,8 @@ public class Owner extends Person {
 	}
 
 	static public int loginOwnerMenu(Owner[] owners){
+		// returns index of owner if successful, -1 if not
+
 		String name, pass;
 		int idx, verified;
 		printOwners(owners);
@@ -115,9 +173,9 @@ public class Owner extends Person {
 		}
 
 		System.out.print("Enter password >> ");
+		pass = input.nextLine();
 		System.out.println();
 
-		pass = input.nextLine();
 		verified = owners[idx].passwordCheck(pass);
 
 		if (verified == 1) {
@@ -135,26 +193,29 @@ public class Owner extends Person {
 		char selection;
 
 		System.out.println("Good day, " + owner.getName() + "!");
+		System.out.println("You currently have " + owner.getCoins() + " amount of money.");
 		System.out.println();
 
 		do {
 			System.out.println("[1] See list of machines");
 			System.out.println("[2] Add new machine");
-			System.out.println("[3] Remove a machine");
+			// System.out.println("[3] Remove a machine");
 			System.out.println("[4] Collect profit from machine");
-			System.out.println("[5] Exit as owner.getName()");
+			System.out.println("[5] Exit as " + owner.getName());
+			// System.out.println("[6] See logs of machine");
+			// System.out.println("[7] Change password");
 			System.out.print(" >> ");
-			System.out.println();
 
 			selection = input.nextLine().charAt(0);
+			System.out.println();
 
 			switch(selection) {
 				case '1':
-					// Machine.printMachines(machines);
+					Machine.printMachines(machines);
 					break;
 
 				case '2':
-					// Machine.newMachineMenu(machines);
+					Machine.newMachineMenu(machines, new String(owner.getName()));
 					break;
 
 				case '3':
@@ -165,15 +226,14 @@ public class Owner extends Person {
 					owner.collectProfit();
 					break;
 
+				case '5':
+					break;
+
 				default:
 					System.out.println("Invalid selection [" + selection + "]!");
 					System.out.println();
 					break;
 			}
-
-		// System.out.println("[5] See logs of machine");
-		// System.out.println("[6] Change password");
-		
 		} while (selection != '5');
 
 		System.out.println("Have a nice day " + owner.getName() + "!");

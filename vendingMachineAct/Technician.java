@@ -1,6 +1,9 @@
 package vendingMachineAct;
 
+import java.util.Scanner;
+
 public class Technician extends Person{
+	static Scanner input = new Scanner(System.in);
 	static private int count = 0;
 	private int id;
 	private Drink[] pallete;
@@ -56,10 +59,35 @@ public class Technician extends Person{
 		}
 		
 		return idx;
-		
-		
 	}
 
+	public static void technicianScreen() {
+		char selection;
 
+		do {
+			System.out.println("[1] Log in as a technician");
+			System.out.println("[2] Exit technician mode");
+			System.out.print(" >> ");
 
+			selection = input.nextLine().toLowerCase().charAt(0);
+			System.out.println();
+
+			switch (selection) {
+				case '1':
+					// technician mode
+					break;
+					
+				case '2':
+					System.out.println("Leaving technician mode...");
+					System.out.println();
+					break;
+					
+				default:
+					System.out.println("Invalid selection [" + selection + "]!");
+					System.out.println();
+					break;
+					
+			} // end switch
+		} while (selection != '2');
+	}
 }

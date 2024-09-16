@@ -12,7 +12,7 @@ public class MainExec {
 		
 		Machine[] machines = new Machine[MAX_OBJECTS];
 		Owner[] owners = new Owner[MAX_OBJECTS];
-		Technician[] technicians = new Technician[MAX_OBJECTS];
+		Technician technician = new Technician("techjoe");
 		
 		Customer johnDoe = new Customer("jhndoe", 100);
 		char mode, selection;
@@ -24,65 +24,14 @@ public class MainExec {
 			
 			switch (mode) {
 				case '1': // customer mode
-					
 					break;
 					
 				case '2': // technician mode
-					do {
-						selection = technicianScreen();
-						
-						switch (selection) {
-							case '1':
-								// technician mode
-								break;
-								
-							case '2':
-								System.out.println("Leaving technician mode...");
-								System.out.println();
-								break;
-								
-							default:
-								System.out.println("Invalid selection [" + selection + "]!");
-								System.out.println();
-								break;
-								
-						} // end switch
-					} while (selection != '2');
+					Technician.technicianScreen();
 					break;
 				
 				case '3': // owner mode
-					do {
-						selection = ownerScreen();
-						
-						switch (selection) {
-							case '1': // create new owner
-								idx = Owner.newOwnerMenu(owners);
-
-								if (idx == -1) break;
-								else {
-
-								}
-
-							case '2': // owner mode
-								idx = Owner.loginOwnerMenu(owners);
-								if (idx == -1) break;
-								
-								
-								break;
-								
-							case '3':
-								System.out.println("Leaving owner mode...");
-								System.out.println();
-								break;
-								
-							default:
-								System.out.println("Invalid selection [" + selection + "]!");
-								System.out.println();
-								break;
-								
-						} // end switch
-					} while (selection != '2');
-					
+					Owner.ownerScreen(owners, machines);
 					break;
 					
 				case '4':
@@ -118,35 +67,4 @@ public class MainExec {
 		
 		return x;
 	}
-	
-	public static char technicianScreen() {
-		if(Technician.getCount() == 0) {
-			System.out.println("Warning: No technicians found!");
-			System.out.println("Only owners can add technicians");
-			System.out.println();
-		}
-		
-		System.out.println("[1] Log in as a technician");
-		System.out.println("[2] Exit technician mode");
-		System.out.print(" >> ");
-		
-		char x = input.nextLine().toLowerCase().charAt(0);
-		System.out.println();
-		
-		return x;
-	}
-	
-	public static char ownerScreen() {
-		
-		System.out.println("[1] Create new owner");
-		System.out.println("[2] Log in as an existing owner");
-		System.out.println("[3] Exit owner mode");
-		System.out.print(" >> ");
-		
-		char x = input.nextLine().toLowerCase().charAt(0);
-		System.out.println();
-		
-		return x;
-	}
-
 }
