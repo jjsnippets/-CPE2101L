@@ -16,19 +16,20 @@ public class MainExec {
 		
 		Customer johnDoe = new Customer("jhndoe", 100);
 		char mode, selection;
+		int idx;
 		String username = new String();
 		
 		do {
 			mode = screens();
 			
 			switch (mode) {
-				case '1':
+				case '1': // customer mode
 					
 					break;
 					
-				case '2':
+				case '2': // technician mode
 					do {
-						selection = technicianScreen(technicians.length);
+						selection = technicianScreen();
 						
 						switch (selection) {
 							case '1':
@@ -49,7 +50,38 @@ public class MainExec {
 					} while (selection != '2');
 					break;
 				
-				case '3':
+				case '3': // owner mode
+					do {
+						selection = ownerScreen();
+						
+						switch (selection) {
+							case '1': // create new owner
+								idx = Owner.newOwnerMenu(owners);
+
+								if (idx == -1) break;
+								else {
+
+								}
+
+							case '2': // owner mode
+								idx = Owner.loginOwnerMenu(owners);
+								if (idx == -1) break;
+								
+								
+								break;
+								
+							case '3':
+								System.out.println("Leaving owner mode...");
+								System.out.println();
+								break;
+								
+							default:
+								System.out.println("Invalid selection [" + selection + "]!");
+								System.out.println();
+								break;
+								
+						} // end switch
+					} while (selection != '2');
 					
 					break;
 					
@@ -87,10 +119,10 @@ public class MainExec {
 		return x;
 	}
 	
-	public static char technicianScreen(int l) {
-		if(l == 0) {
+	public static char technicianScreen() {
+		if(Technician.getCount() == 0) {
 			System.out.println("Warning: No technicians found!");
-			System.out.println("To add new technicians, be an owner first");
+			System.out.println("Only owners can add technicians");
 			System.out.println();
 		}
 		
@@ -104,15 +136,12 @@ public class MainExec {
 		return x;
 	}
 	
-	public static char ownerScreen(Owner[] owners, Technician[] techs, Machine[] machs) {
-		String iName = new String();
+	public static char ownerScreen() {
 		
-		System.out.println("[1] Log in as an owner");
-		System.out.println("[2] Exit owner mode");
+		System.out.println("[1] Create new owner");
+		System.out.println("[2] Log in as an existing owner");
+		System.out.println("[3] Exit owner mode");
 		System.out.print(" >> ");
-		
-		System.out.println("Enter name: ");
-		iName = input.nextLine().strip().toLowerCase();
 		
 		char x = input.nextLine().toLowerCase().charAt(0);
 		System.out.println();

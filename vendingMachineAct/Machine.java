@@ -1,7 +1,7 @@
 package vendingMachineAct;
 
 public class Machine {
-	private String label;
+	private String label, owned;
 	private Drink[] stock;
 	private int coins;
 
@@ -23,5 +23,13 @@ public class Machine {
 
 	public void setLabel(String label) {
 		this.label = label;
+	}
+
+	public String getOwned() {
+		return owned;
+	}
+
+	public void setOwned(String owned) {
+		this.owned = owned;
 	}
 }

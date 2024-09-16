@@ -1,6 +1,7 @@
 package vendingMachineAct;
 
 public class Technician extends Person{
+	static private int count = 0;
 	private int id;
 	private Drink[] pallete;
 
@@ -22,6 +23,18 @@ public class Technician extends Person{
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	static public int getCount() {
+		return count;
+	}
+
+	static public void incCount() {
+		Technician.count++;
+	}
+
+	static public void decCount() {
+		Technician.count--;
 	}
 	
 	public void refillInventory() {
