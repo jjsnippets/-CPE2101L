@@ -101,6 +101,21 @@ public class Machine {
 		return 0;
 	}
 
+	public static int machineMatchMenu(Machine[] machines, String message) {
+		int idx;
+		Machine.printMachines(machines);
+		System.out.print(message + " >> ");
+		String label = input.nextLine();
+
+		idx = matchMachine(machines, label);
+
+		if (idx == -1) {
+			System.out.println("Machine not found!");
+		}
+		System.out.println();
+		return idx;
+	}
+
 	public static int matchMachine(Machine[] machines, String label) {
 		// returns index of machine if found, -1 if not
 		int idx = -1;
@@ -115,7 +130,7 @@ public class Machine {
 
 	public static void printMachines(Machine[] machines) {
 		System.out.println("@@@ List of Machines @@@");
-		System.out.printf("no %-10s%-10s%-10s\n", "Label", "Owned", "Coins");
+		System.out.printf("no %-10s%-10s%-10s\n", "Label", "Owned", "Profit");
 		for(int i = 0; i < Machine.getCount(); i++) {
 			System.out.printf("%02d %-10s%-10s%-10d\n", (i + 1), machines[i].getLabel(), machines[i].getOwned(), machines[i].getProfit());
 		}
@@ -131,7 +146,6 @@ public class Machine {
 			return -1;
 		}
 
-		// System.out.println("=== New Machine ===");
 		System.out.print("Name of new machine >> ");
 		label = input.nextLine();
 
@@ -150,10 +164,8 @@ public class Machine {
 
 		if (check == 'y') {
 			machines[idx] = new Machine(label, name, pass);
-			System.out.println("Machine created successfully!");
+			System.out.println("Machine " + label + " created successfully!");
 			System.out.println();
-
-			printMachines(machines);
 			return idx;
 
 		} else {
@@ -166,20 +178,12 @@ public class Machine {
 	public static int loginMachineMenu(Machine[] machines){
 		// returns index of machine if successful, -1 if not
 
-		String label, pass;
+		String pass;
 		int idx, verified;
 		printMachines(machines);
 
-		System.out.print("Name of machine >> ");
-		label = input.nextLine();
-
-		idx = matchMachine(machines, label);
-
-		if (idx == -1) {
-			System.out.println("Machine not found!");
-			System.out.println();
-			return -1;
-		}
+		idx = machineMatchMenu(machines, "Name of machine");
+		if (idx == -1) return -1;
 
 		System.out.print("Enter password >> ");
 		pass = input.nextLine();
@@ -206,8 +210,9 @@ public class Machine {
 		do {
 			System.out.println("### Maintainance: " + label + " ###");
 			System.out.println("[1] See list of drinks");
-			System.out.println("[2] Refill inventory of drink");
-			System.out.println("[3] Leave " + label);
+			System.out.println("[2] Refill inventory");
+			System.out.println("[3] Change price of drink");
+			System.out.println("[4] Leave " + label);
 			System.out.print(" >> ");
 			
 			selection = input.nextLine().toLowerCase().charAt(0);
@@ -224,10 +229,12 @@ public class Machine {
 					
 					Drink.printDrinks(this.getDrinks(), this.getDrinkCount(), label);
 					break;
+				
+				case '3': // Change price of drink
+					this.changePriceMenu();
+					break;
 					
-				case '3':
-					System.out.println("Leaving machine mode...");
-					System.out.println();
+				case '4':
 					break;
 					
 				default:
@@ -236,7 +243,41 @@ public class Machine {
 					break;
 					
 			} // end switch
-		} while (selection != '3');
+		} while (selection != '4');
+
+		System.out.println("Leaving machine mode...");
+		System.out.println();
+	}
+
+	private void changePriceMenu() {
+		// returns index of drink if successful, -1 if not
+		
+		int idx, drinkCount = this.getDrinkCount();
+		String drinkName;
+		int price;
+		Drink[] drinks = this.getDrinks();
+
+		Drink.printDrinks(drinks, drinkCount, this.getLabel());
+
+		System.out.print("Name of drink to change price of >> ");
+		drinkName = input.nextLine();
+
+		idx = Drink.matchDrinks(drinks, drinkCount, drinkName);
+
+		if (idx == drinkCount){
+			System.out.println("Drink not found!");
+			System.out.println();
+			return;
+		}
+
+		System.out.print("Set price of " + drinkName + " >> ");
+		price = input.nextInt();
+		input.nextLine();
+		System.out.println();
+
+		drinks[idx].setPrice(price);
+		System.out.println("Changed price of " + drinks[idx].getFullName() + " to " + price + "!");
+		System.out.println();
 	}
 
 	public int refillInventory() {
@@ -295,39 +336,13 @@ public class Machine {
 		return 1;
 	}
 
-	public static int selectMachine(Machine[] machines) {
-		// returns index of machine if successful, -1 if not
-		
-		String label;
-		int idx;
-		
-		printMachines(machines);
-
-		System.out.println("Which vending machine to go to?");
-		System.out.print(" >> ");
-		label = input.nextLine();
-		System.out.println();
-		
-		idx = matchMachine(machines, label);
-
-		if (idx == -1) {
-			System.out.println("Machine not found!");
-			System.out.println();
-			return -1;
-		}
-
-		return idx;
-	}
-
 	public void existingMachineCustomerMenu(Customer customer) {
 		char selection;
-		int idx;
 		String label = this.getLabel();
 		
 		do {
 			System.out.println("### Vending Machine: " + label + " ###");
-			System.out.println("Credits in " + this.getLabel() + ": " + this.getCredit());
-			System.out.println();
+			System.out.println("Credits: " + this.getCredit());
 			System.out.println("[1] Insert coins");
 			System.out.println("[2] View and purchase drinks");
 			System.out.println("[3] Withdraw and leave " + label);
@@ -354,7 +369,6 @@ public class Machine {
 					System.out.println();
 					customer.incWallet(this.getCredit());
 					this.decCredit(this.getCredit());
-
 					break;
 					
 				default:
@@ -371,12 +385,11 @@ public class Machine {
 		String drinkName;
 		int price, credit;
 		Drink[] drinks;
-		
 		drinkCount = this.getDrinkCount();
 		drinks = this.getDrinks();
-		credit = this.getCredit();
 
 		do {
+			credit = this.getCredit();
 
 			Drink.printDrinks(drinks, drinkCount, this.getLabel());
 
@@ -384,7 +397,7 @@ public class Machine {
 			System.out.println("or type \"exit\" to stop purchasing drinks");
 			System.out.print(" >> ");
 			drinkName = input.nextLine();
-			System.out.println("\n\n");
+			System.out.println();
 			
 			if (drinkName.strip().equalsIgnoreCase("exit")) return; // exit condition
 
@@ -403,12 +416,12 @@ public class Machine {
 					System.out.println();
 					
 				} else if (credit < price) {
-					System.out.println("Not enough vending machine credits (of " + credit + "!");
+					System.out.println("Not enough credits (of " + credit + ")!");
 					System.out.println();
 					
 				} else {
 					this.dispenseDrink(drinks[idx], customer);
-					System.out.println("You took" + drinks[idx].getFullName() + " out of " + this.getLabel() + "!");
+					System.out.println("You took " + drinks[idx].getFullName() + " out of " + this.getLabel() + "!");
 					System.out.println();
 					this.incProfit(price);
 					this.decCredit(price);

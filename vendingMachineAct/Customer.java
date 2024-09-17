@@ -12,7 +12,7 @@ public class Customer extends Person {
 	public int insertCoins(Machine machine, int toInsert) {
 		int wallet = this.getWallet();
 		
-		if (wallet > toInsert) {
+		if (wallet >= toInsert) {
 			this.decWallet(toInsert);
 			machine.incCredit(toInsert);
 			return 0;
@@ -21,10 +21,6 @@ public class Customer extends Person {
 	}
 	
 	public void selectDrink() {
-		// code
-	}
-	
-	public void collectItems() {
 		// code
 	}
 	
@@ -55,7 +51,6 @@ public class Customer extends Person {
 			coins = jhndoe.getWallet();
 			System.out.println("### Customer subconcious: " + name + " ###");
 			System.out.println("You have " + coins + " in hand");
-			System.out.println();
 			System.out.println("[1] Peruse machines");
 			System.out.println("[2] Leave machines");
 			System.out.print(" >> ");
@@ -65,7 +60,7 @@ public class Customer extends Person {
 			
 			switch (selection) {
 				case '1': // select a machine
-					idx = Machine.selectMachine(machines);
+					idx = Machine.machineMatchMenu(machines, "Which machine to use?\n");
 					if (idx == -1) break;
 					
 					machines[idx].existingMachineCustomerMenu(jhndoe);

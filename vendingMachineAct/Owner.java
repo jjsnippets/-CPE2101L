@@ -26,11 +26,15 @@ public class Owner extends Person {
 	}
 
 	public int getCoins() {
-		return this.getWallet();
+		return super.getWallet();
 	}
 
 	public void setCoins(int coins) {
-		this.setWallet(coins);
+		super.setWallet(coins);
+	}
+
+	public void incCoins(int coins) {
+		super.incWallet(coins);
 	}
 
 	public String getPassword() {
@@ -59,8 +63,32 @@ public class Owner extends Person {
 		return idx;
 	}
 	
-	public void collectProfit() {
-		// code
+	public int collectProfit(Machine[] machines) {
+		String pass;
+		int verified, idx, profit;
+
+		idx = Machine.machineMatchMenu(machines, "Name of machine");
+		if (idx == -1) return -1;
+
+		System.out.print("Enter password >> ");
+		pass = input.nextLine();
+		System.out.println();
+
+		verified = machines[idx].passwordCheck(pass);
+
+		if (verified == 1) {
+			profit = machines[idx].getProfit();
+			this.incCoins(profit);
+			System.out.println("Profit of " + profit + " collected!");
+			machines[idx].setProfit(0);
+			System.out.println();
+			return 1;
+
+		} else {
+			System.out.println("Incorrect password!");
+			System.out.println();
+			return -1;
+		}
 	}
 
 	static public void printOwners(Owner[] owners){
@@ -192,22 +220,23 @@ public class Owner extends Person {
 	public int existingOwnerMenu(Machine[] machines) {
 		char selection;
 		String name = this.getName();
-		int coins = this.getCoins();
+		int idx;
 		
-
 		System.out.println("Good day, " + name + "!");
-		System.out.println("You currently have " + coins + " as profit.");
 		System.out.println();
 
 		do {
 			System.out.println("=== Owner Mode: " + name + " ===");
+			System.out.println("You currently have " + this.getCoins() + " as profit.");
 			System.out.println("[1] See list of machines");
 			System.out.println("[2] Add new machine");
-			// System.out.println("[3] Remove a machine");
-			// System.out.println("[4] Collect profit from machine");
+			System.out.println("[3] Enter machine maintenance mode");
+			System.out.println("[4] Collect profit from machine");
 			System.out.println("[5] Exit as " + name);
-			// System.out.println("[6] See logs of machine");
-			// System.out.println("[7] Change password");
+			// System.out.println("[x] Remove a machine");
+			// System.out.println("[x] See logs of machine");
+			// System.out.println("[x] Change password");
+
 			System.out.print(" >> ");
 
 			selection = input.nextLine().charAt(0);
@@ -219,15 +248,21 @@ public class Owner extends Person {
 					break;
 
 				case '2': // create new machine
-					Machine.newMachineMenu(machines, new String(name));
+					idx = Machine.newMachineMenu(machines, new String(name));
+					if (idx == -1) break;
+
+					machines[idx].existingMachineMaintainanceMenu();
 					break;
 
 				case '3':
-					// Machine.removeMachineMenu(machines);
+					idx = Machine.loginMachineMenu(machines);
+					if (idx == -1) break;
+
+					machines[idx].existingMachineMaintainanceMenu();
 					break;
 
 				case '4':
-					this.collectProfit();
+					this.collectProfit(machines);
 					break;
 
 				case '5':

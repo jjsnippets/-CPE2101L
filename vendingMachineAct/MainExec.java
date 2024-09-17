@@ -14,9 +14,7 @@ public class MainExec {
 		// Technician technician = new Technician("techjoe");	
 		// Customer johnDoe = new Customer("jhndoe", 100);
 		
-		char mode, selection;
-		int idx;
-		String username = new String();
+		char mode;
 		
 		do {
 			mode = screens();
