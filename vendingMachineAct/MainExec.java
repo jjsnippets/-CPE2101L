@@ -10,9 +10,10 @@ public class MainExec {
 	public static void main(String[] args) {
 		Machine[] machines = new Machine[MAX_OBJECTS];
 		Owner[] owners = new Owner[MAX_OBJECTS];
-		Technician technician = new Technician("techjoe");
-				
-		Customer johnDoe = new Customer("jhndoe", 100);
+		
+		// Technician technician = new Technician("techjoe");	
+		// Customer johnDoe = new Customer("jhndoe", 100);
+		
 		char mode, selection;
 		int idx;
 		String username = new String();
@@ -22,6 +23,7 @@ public class MainExec {
 			
 			switch (mode) {
 				case '1': // customer mode
+					Customer.customerScreen(machines);
 					break;
 					
 				case '2': // technician mode

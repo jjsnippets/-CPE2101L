@@ -19,7 +19,12 @@ public abstract class Person {
 	public int getWallet() {
 		return wallet;
 	}
-	public void setWallet(int wallet) {
-		this.wallet = wallet;
+	
+	public void setWallet(int amount) {
+		this.wallet = amount;
+	}
+	
+	public void decWallet(int amount) {
+		this.wallet -= amount;
 	}
 }

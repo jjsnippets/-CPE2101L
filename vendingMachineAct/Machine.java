@@ -22,8 +22,12 @@ public class Machine {
 		return coins;
 	}
 
-	public void setCoins(int coins) {
-		this.coins = coins;
+	public void setCoins(int amount) {
+		this.coins = amount;
+	}
+	
+	public void incCoins(int amount) {
+		this.coins += amount;
 	}
 
 	public static int getCount() {
@@ -199,12 +203,9 @@ public class Machine {
 					
 				case '2': // refill inventory
 					idx = this.refillInventory();
-					
-
-
 					if (idx == -1) break;
 					
-					// Drink.existingDrinkMenu(machine.showDrinks()[idx]);
+					Drink.printDrinks(this.getDrinks(), this.getDrinkCount(), label);
 					break;
 					
 				case '3':
@@ -276,4 +277,133 @@ public class Machine {
 		
 		return 1;
 	}
+
+	public static int selectMachine(Machine[] machines) {
+		// returns index of machine if successful, -1 if not
+		
+		String label;
+		int idx;
+		
+		printMachines(machines);
+
+		System.out.println("Which vending machine to go to?");
+		System.out.print(" >> ");
+		label = input.nextLine();
+		System.out.println();
+		
+		idx = matchMachine(machines, label);
+
+		if (idx == -1) {
+			System.out.println("Machine not found!");
+			System.out.println();
+			return -1;
+		}
+
+		return idx;
+	}
+
+	public void existingMachineCustomerMenu(Customer customer) {
+		char selection;
+		int idx;
+		String label = this.getLabel();
+		
+		do {
+			System.out.println("### Vending Machine: " + label + " ###");
+			System.out.println("[1] Insert coins");
+			System.out.println("[2] View and purchase drinks");
+			System.out.println("[3] Withdraw and leave " + label);
+			System.out.print(" >> ");
+			
+			selection = input.nextLine().toLowerCase().charAt(0);
+			System.out.println();
+			
+			switch (selection) {
+				case '1': // insert coins
+					this.insertCoinsMenu(customer);
+					break;
+					
+				case '2': // view and purchase
+					this.purchaseDrinksMenu(customer);
+					idx = this.refillInventory();
+					if (idx == -1) break;
+					
+					Drink.printDrinks(this.getDrinks(), this.getDrinkCount(), label);
+					break;
+					
+				case '3':
+					System.out.println("Leaving machine mode...");
+					System.out.println();
+					break;
+					
+				default:
+					System.out.println("Invalid selection [" + selection + "]!");
+					System.out.println();
+					break;
+					
+			} // end switch
+		} while (selection != '3');
+	}
+
+	private void purchaseDrinksMenu(Customer customer) {
+		int idx, drinkCount = this.getDrinkCount();
+		String drinkName;
+		int amount, price;
+		Drink[] drinks;
+		
+		drinkCount = this.getDrinkCount();
+		drinks = this.getDrinks();
+
+		Drink.printDrinks(drinks, drinkCount, this.getLabel());
+
+		System.out.println("Name of drink to purchase");
+		System.out.println("or type \"exit\" to stop purchasing drinks");
+		System.out.print(" >> ");
+		drinkName = input.nextLine();
+		System.out.println();
+		
+		if (drinkName.strip().equalsIgnoreCase("exit")) return;
+
+		idx = Drink.matchDrinks(drinks, drinkCount, drinkName);
+
+		if (idx == drinkCount){
+			System.out.println("No drinks match your selection!");
+			System.out.println();
+
+		} else {
+			int stock = drinks[idx].getAmount();
+			
+			if (stock == 0) {
+				System.out.println("Sorry but " + drinkName + " is out of stock!");
+				System.out.println();
+			} else {
+				
+				
+			}
+			
+			
+			
+		}		
+	}
+
+	private void insertCoinsMenu(Customer customer) {
+		int amount, eCode;
+		
+		System.out.println("How much coins to insert?");
+		System.out.print(" >> ");
+		
+		amount = input.nextInt();
+		input.nextLine();
+		System.out.println();
+		
+		eCode = customer.insertCoins(this, amount);
+		
+		if (eCode < 0) {
+			System.out.println("You do not have enough money (of " + customer.getWallet() + ")!");
+		} else {
+			System.out.println("Credits in " + this.getLabel() + ": " + this.getCoins());
+		}
+		
+		System.out.println();
+	}
+	
 }
