@@ -28,8 +28,13 @@ public class Drink {
 	public int getAmount() {
 		return amount;
 	}
+	
 	public void setAmount(int amount) {
 		this.amount = amount;
+	}
+	
+	public void decAmount() {
+		this.amount--;
 	}
 
 	public static void printDrinks(Drink[] drinks, int count, String label){

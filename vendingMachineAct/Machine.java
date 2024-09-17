@@ -347,11 +347,12 @@ public class Machine {
 	private void purchaseDrinksMenu(Customer customer) {
 		int idx, drinkCount = this.getDrinkCount();
 		String drinkName;
-		int amount, price;
+		int amount, price, credit;
 		Drink[] drinks;
 		
 		drinkCount = this.getDrinkCount();
 		drinks = this.getDrinks();
+		credit = this.getCoins();
 
 		Drink.printDrinks(drinks, drinkCount, this.getLabel());
 
@@ -375,14 +376,24 @@ public class Machine {
 			if (stock == 0) {
 				System.out.println("Sorry but " + drinkName + " is out of stock!");
 				System.out.println();
+				
+			} else if (credit < drinks[idx].getPrice()) {
+				System.out.println("Not enough vending machine credits (of " + credit + "!");
+				System.out.println();
+				
 			} else {
-				
-				
+				this.dispenseDrink(drinks[idx], customer);
+				// increment coins
 			}
-			
-			
-			
-		}		
+		}
+		
+	}
+
+	private void dispenseDrink(Drink drink, Customer customer) {
+		drink.decAmount();
+		// add to customer purchase
+		// add to this.log
+		
 	}
 
 	private void insertCoinsMenu(Customer customer) {
