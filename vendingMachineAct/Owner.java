@@ -77,7 +77,7 @@ public class Owner extends Person {
 		char selection;
 		
 		do {
-			System.out.println("=== Owner Mode ===");
+			System.out.println("### Owner Mode ###");
 			System.out.println("[1] Create new owner");
 			System.out.println("[2] Log in as an existing owner");
 			System.out.println("[3] Exit owner mode");
@@ -91,14 +91,14 @@ public class Owner extends Person {
 					idx = Owner.newOwnerMenu(owners);
 					if (idx == -1) break;
 
-					Owner.existingOwnerMenu(owners[idx], machines);
+					owners[idx].existingOwnerMenu(machines);
 					break;
 
 				case '2': // owner mode
 					idx = Owner.loginOwnerMenu(owners);
 					if (idx == -1) break;
 
-					Owner.existingOwnerMenu(owners[idx], machines);
+					owners[idx].existingOwnerMenu(machines);
 					break;
 				
 				case '3': // exit owner mode
@@ -189,19 +189,23 @@ public class Owner extends Person {
 		}
 	}
 
-	static public int existingOwnerMenu(Owner owner, Machine[] machines) {
+	public int existingOwnerMenu(Machine[] machines) {
 		char selection;
+		String name = this.getName();
+		int coins = this.getCoins();
+		
 
-		System.out.println("Good day, " + owner.getName() + "!");
-		System.out.println("You currently have " + owner.getCoins() + " amount of money.");
+		System.out.println("Good day, " + name + "!");
+		System.out.println("You currently have " + coins + " as profit.");
 		System.out.println();
 
 		do {
+			System.out.println("=== Owner Mode: " + name + " ===");
 			System.out.println("[1] See list of machines");
 			System.out.println("[2] Add new machine");
 			// System.out.println("[3] Remove a machine");
 			// System.out.println("[4] Collect profit from machine");
-			System.out.println("[5] Exit as " + owner.getName());
+			System.out.println("[5] Exit as " + name);
 			// System.out.println("[6] See logs of machine");
 			// System.out.println("[7] Change password");
 			System.out.print(" >> ");
@@ -214,8 +218,8 @@ public class Owner extends Person {
 					Machine.printMachines(machines);
 					break;
 
-				case '2':
-					Machine.newMachineMenu(machines, new String(owner.getName()));
+				case '2': // create new machine
+					Machine.newMachineMenu(machines, new String(name));
 					break;
 
 				case '3':
@@ -223,7 +227,7 @@ public class Owner extends Person {
 					break;
 
 				case '4':
-					owner.collectProfit();
+					this.collectProfit();
 					break;
 
 				case '5':
@@ -236,7 +240,7 @@ public class Owner extends Person {
 			}
 		} while (selection != '5');
 
-		System.out.println("Have a nice day " + owner.getName() + "!");
+		System.out.println("Have a nice day " + name + "!");
 		System.out.println();
 
 

@@ -32,7 +32,8 @@ public class Drink {
 		this.amount = amount;
 	}
 
-	public static void printDrinks(Drink[] drinks, int count){
+	public static void printDrinks(Drink[] drinks, int count, String label){
+		System.out.printf("@@@ List of drinks in " + label + " @@@\n");
 		System.out.printf("%-20s %-10s %-10s\n", "Drink", "Price", "Avaialable");
 		for(int i = 0; i < count; i++) {
 			System.out.printf("%-20s %-10d %-10d\n", drinks[i].getFullName(), drinks[i].getPrice(), drinks[i].getAmount());

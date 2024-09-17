@@ -2,24 +2,13 @@ package vendingMachineAct;
 
 import java.util.Scanner;
 
-import javax.crypto.Mac;
-
 public class Technician extends Person{
 	static Scanner input = new Scanner(System.in);
 	static private int count = 0;
 	private int id;
-	private Drink[] pallete;
 
 	public Technician(String n) {
 		super(n, 0);
-	}
-	
-	public Drink[] getPallete() {
-		return pallete;
-	}
-
-	public void setPallete(Drink[] pallete) {
-		this.pallete = pallete;
 	}
 	
 	public int getId() {
@@ -46,10 +35,6 @@ public class Technician extends Person{
 		// code
 	}
 	
-	public void collectCoins() {
-		// code
-	}
-	
 	public int matchTechnician(Technician[] names, String name) {
 		
 		int idx = -1;
@@ -67,6 +52,7 @@ public class Technician extends Person{
 		char selection;
 
 		do {
+			System.out.println("### Technician Mode ###");
 			System.out.println("[1] Log in as a technician");
 			System.out.println("[2] Exit technician mode");
 			System.out.print(" >> ");
@@ -104,10 +90,10 @@ public class Technician extends Person{
 		int idx;
 		
 		do {
-			System.out.println("=== Technician Mode ===");
+			System.out.println("=== Technician Mode: " + name + " ===");
 			System.out.println("[1] See list of machines");
 			System.out.println("[2] Refill inventory of machine");
-			System.out.println("[3] Exit technician mode");
+			System.out.println("[3] Exit as " + name);
 			System.out.print(" >> ");
 			
 			selection = input.nextLine().toLowerCase().charAt(0);
@@ -122,7 +108,7 @@ public class Technician extends Person{
 					idx = Machine.loginMachineMenu(machines);
 					if (idx == -1) break;
 
-					Machine.existingMachineMenu(machines[idx]);
+					machines[idx].existingMachineMaintainanceMenu();
 					break;
 					
 				case '3': // exit technician mode

@@ -8,12 +8,10 @@ public class MainExec {
 	static Scanner input = new Scanner(System.in);
 
 	public static void main(String[] args) {
-		
-		
 		Machine[] machines = new Machine[MAX_OBJECTS];
 		Owner[] owners = new Owner[MAX_OBJECTS];
 		Technician technician = new Technician("techjoe");
-		
+				
 		Customer johnDoe = new Customer("jhndoe", 100);
 		char mode, selection;
 		int idx;

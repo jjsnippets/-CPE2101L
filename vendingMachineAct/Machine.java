@@ -93,7 +93,7 @@ public class Machine {
 	}
 
 	public static void printMachines(Machine[] machines) {
-		System.out.println("=== List of Machines ===");
+		System.out.println("@@@ List of Machines @@@");
 		System.out.printf("no %-10s%-10s%-10s\n", "Label", "Owned", "Coins");
 		for(int i = 0; i < Machine.getCount(); i++) {
 			System.out.printf("%02d %-10s%-10s%-10d\n", (i + 1), machines[i].getLabel(), machines[i].getOwned(), machines[i].getCoins());
@@ -110,8 +110,8 @@ public class Machine {
 			return -1;
 		}
 
-		System.out.println("=== New Machine ===");
-		System.out.print("Machine Name >> ");
+		// System.out.println("=== New Machine ===");
+		System.out.print("Name of new machine >> ");
 		label = input.nextLine();
 
 		System.out.print("Machine Password >> ");
@@ -177,14 +177,16 @@ public class Machine {
 		}
 	}
 
-	public static void existingMachineMenu(Machine machine) {
+	public void existingMachineMaintainanceMenu() {
 		char selection;
 		int idx;
+		String label = this.getLabel();
+		
 		do {
-			System.out.println("=== Machine Mode ===");
+			System.out.println("### Maintainance: " + label + " ###");
 			System.out.println("[1] See list of drinks");
 			System.out.println("[2] Refill inventory of drink");
-			System.out.println("[3] Exit machine mode");
+			System.out.println("[3] Leave " + label);
 			System.out.print(" >> ");
 			
 			selection = input.nextLine().toLowerCase().charAt(0);
@@ -192,11 +194,11 @@ public class Machine {
 			
 			switch (selection) {
 				case '1': // see list of drinks
-					Drink.printDrinks(machine.getDrinks(), machine.getDrinkCount());
+					Drink.printDrinks(this.getDrinks(), this.getDrinkCount(), label);
 					break;
 					
 				case '2': // refill inventory
-					idx = machine.refillInventory();
+					idx = this.refillInventory();
 					
 
 
@@ -222,18 +224,18 @@ public class Machine {
 	public int refillInventory() {
 		// refill inventory of drinks
 
-		int idx, count = getCount(), drinkCount = this.getDrinkCount();
-		String name;
+		int idx, drinkCount = this.getDrinkCount();
+		String drinkName;
 		int amount, price;
 		char check;
 		Drink[] drinks = this.getDrinks();
 
-		Drink.printDrinks(drinks, drinkCount);
+		Drink.printDrinks(drinks, drinkCount, this.getLabel());
 
 		System.out.print("Name of drink >> ");
-		name = input.nextLine();
+		drinkName = input.nextLine();
 
-		idx = Drink.matchDrinks(drinks, drinkCount, name);
+		idx = Drink.matchDrinks(drinks, drinkCount, drinkName);
 
 		if (idx == drinkCount){
 			System.out.println("Are you sure you want to add a new drink?");
@@ -248,21 +250,21 @@ public class Machine {
 				return -1;
 			}
 
-			System.out.print("Set price of " + name + " >> ");
+			System.out.print("Set price of " + drinkName + " >> ");
 			price = input.nextInt();
-			System.out.print("Number of " + name + " to stock >> ");
+			System.out.print("Number of " + drinkName + " to stock >> ");
 			amount = input.nextInt();
 			input.nextLine();
 			System.out.println();
 
-			drinks[idx] = new Drink(name, price, amount);
+			drinks[idx] = new Drink(drinkName, price, amount);
 			this.incDrinkCount();
 
 			System.out.println("Added " + drinks[idx].getFullName() + " to " + this.getLabel() + "!");
 			System.out.println();
 
 		} else {
-			System.out.print("Number of " + name + " to stock >> ");
+			System.out.print("Number of " + drinkName + " to stock >> ");
 			amount = input.nextInt();
 			input.nextLine();
 			System.out.println();
