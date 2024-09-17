@@ -8,26 +8,43 @@ public class Machine {
 	private int drinkCount = 0;
 	private String label, owned, password;
 	private Drink[] stock = new Drink[MainExec.MAX_OBJECTS];
-	private int coins;
+	private int credit, profit;
 
 	public Machine(String l, String o, String p) {
 		this.setLabel(l);
 		this.setOwned(o);
 		this.setPassword(p);
-		this.setCoins(0);
+		this.setCredit(0);
+		this.setProfit(0);
 		Machine.incCount();
 	}
 
-	public int getCoins() {
-		return coins;
+	public int getCredit() {
+		return credit;
 	}
 
-	public void setCoins(int amount) {
-		this.coins = amount;
+	public void setCredit(int amount) {
+		this.credit = amount;
 	}
 	
-	public void incCoins(int amount) {
-		this.coins += amount;
+	public void incCredit(int amount) {
+		this.credit += amount;
+	}
+
+	public void decCredit(int amount) {
+		this.credit -= amount;
+	}
+
+	public int getProfit() {
+		return profit;
+	}
+
+	public void setProfit(int amount) {
+		this.profit = amount;
+	}
+
+	public void incProfit(int amount) {
+		this.profit += amount;
 	}
 
 	public static int getCount() {
@@ -100,7 +117,7 @@ public class Machine {
 		System.out.println("@@@ List of Machines @@@");
 		System.out.printf("no %-10s%-10s%-10s\n", "Label", "Owned", "Coins");
 		for(int i = 0; i < Machine.getCount(); i++) {
-			System.out.printf("%02d %-10s%-10s%-10d\n", (i + 1), machines[i].getLabel(), machines[i].getOwned(), machines[i].getCoins());
+			System.out.printf("%02d %-10s%-10s%-10d\n", (i + 1), machines[i].getLabel(), machines[i].getOwned(), machines[i].getProfit());
 		}
 		System.out.println();
 	}
@@ -309,6 +326,8 @@ public class Machine {
 		
 		do {
 			System.out.println("### Vending Machine: " + label + " ###");
+			System.out.println("Credits in " + this.getLabel() + ": " + this.getCredit());
+			System.out.println();
 			System.out.println("[1] Insert coins");
 			System.out.println("[2] View and purchase drinks");
 			System.out.println("[3] Withdraw and leave " + label);
@@ -324,15 +343,18 @@ public class Machine {
 					
 				case '2': // view and purchase
 					this.purchaseDrinksMenu(customer);
-					idx = this.refillInventory();
-					if (idx == -1) break;
-					
-					Drink.printDrinks(this.getDrinks(), this.getDrinkCount(), label);
 					break;
 					
 				case '3':
-					System.out.println("Leaving machine mode...");
+					if (this.getCredit() > 0) {
+						System.out.println("You withdrew " + this.getCredit() + " and left " + label);
+					} else {
+						System.out.println("You left " + label);
+					}
 					System.out.println();
+					customer.incWallet(this.getCredit());
+					this.decCredit(this.getCredit());
+
 					break;
 					
 				default:
@@ -347,46 +369,54 @@ public class Machine {
 	private void purchaseDrinksMenu(Customer customer) {
 		int idx, drinkCount = this.getDrinkCount();
 		String drinkName;
-		int amount, price, credit;
+		int price, credit;
 		Drink[] drinks;
 		
 		drinkCount = this.getDrinkCount();
 		drinks = this.getDrinks();
-		credit = this.getCoins();
+		credit = this.getCredit();
 
-		Drink.printDrinks(drinks, drinkCount, this.getLabel());
+		do {
 
-		System.out.println("Name of drink to purchase");
-		System.out.println("or type \"exit\" to stop purchasing drinks");
-		System.out.print(" >> ");
-		drinkName = input.nextLine();
-		System.out.println();
-		
-		if (drinkName.strip().equalsIgnoreCase("exit")) return;
+			Drink.printDrinks(drinks, drinkCount, this.getLabel());
 
-		idx = Drink.matchDrinks(drinks, drinkCount, drinkName);
-
-		if (idx == drinkCount){
-			System.out.println("No drinks match your selection!");
-			System.out.println();
-
-		} else {
-			int stock = drinks[idx].getAmount();
+			System.out.println("Name of drink to purchase");
+			System.out.println("or type \"exit\" to stop purchasing drinks");
+			System.out.print(" >> ");
+			drinkName = input.nextLine();
+			System.out.println("\n\n");
 			
-			if (stock == 0) {
-				System.out.println("Sorry but " + drinkName + " is out of stock!");
+			if (drinkName.strip().equalsIgnoreCase("exit")) return; // exit condition
+
+			idx = Drink.matchDrinks(drinks, drinkCount, drinkName);
+
+			if (idx == drinkCount){
+				System.out.println("No drinks match your selection!");
 				System.out.println();
-				
-			} else if (credit < drinks[idx].getPrice()) {
-				System.out.println("Not enough vending machine credits (of " + credit + "!");
-				System.out.println();
-				
+
 			} else {
-				this.dispenseDrink(drinks[idx], customer);
-				// increment coins
+				int stock = drinks[idx].getAmount();
+				price = drinks[idx].getPrice();
+				
+				if (stock == 0) {
+					System.out.println("Sorry but " + drinkName + " is out of stock!");
+					System.out.println();
+					
+				} else if (credit < price) {
+					System.out.println("Not enough vending machine credits (of " + credit + "!");
+					System.out.println();
+					
+				} else {
+					this.dispenseDrink(drinks[idx], customer);
+					System.out.println("You took" + drinks[idx].getFullName() + " out of " + this.getLabel() + "!");
+					System.out.println();
+					this.incProfit(price);
+					this.decCredit(price);
+					// increment coins
+				}
 			}
-		}
-		
+
+		} while (true); // if (drinkName.strip().equalsIgnoreCase("exit")) return;
 	}
 
 	private void dispenseDrink(Drink drink, Customer customer) {
@@ -410,10 +440,7 @@ public class Machine {
 		
 		if (eCode < 0) {
 			System.out.println("You do not have enough money (of " + customer.getWallet() + ")!");
-		} else {
-			System.out.println("Credits in " + this.getLabel() + ": " + this.getCoins());
 		}
-		
 		System.out.println();
 	}
 	

@@ -23,6 +23,10 @@ public abstract class Person {
 	public void setWallet(int amount) {
 		this.wallet = amount;
 	}
+
+	public void incWallet(int amount) {
+		this.wallet += amount;
+	}
 	
 	public void decWallet(int amount) {
 		this.wallet -= amount;

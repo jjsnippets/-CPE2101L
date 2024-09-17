@@ -14,7 +14,7 @@ public class Customer extends Person {
 		
 		if (wallet > toInsert) {
 			this.decWallet(toInsert);
-			machine.incCoins(toInsert);
+			machine.incCredit(toInsert);
 			return 0;
 		}
 			return -1;
