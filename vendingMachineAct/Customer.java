@@ -60,10 +60,10 @@ public class Customer extends Person {
 			
 			switch (selection) {
 				case '1': // select a machine
-					idx = Machine.machineMatchMenu(machines, "Which machine to use?\n");
+					idx = Machine.matchMachine(machines);
 					if (idx == -1) break;
 					
-					machines[idx].existingMachineCustomerMenu(jhndoe);
+					machines[idx].customerMenu(jhndoe);
 
 					
 					break;

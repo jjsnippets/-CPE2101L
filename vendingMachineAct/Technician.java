@@ -108,7 +108,7 @@ public class Technician extends Person{
 					idx = Machine.loginMachineMenu(machines);
 					if (idx == -1) break;
 
-					machines[idx].existingMachineMaintainanceMenu();
+					machines[idx].maintananceMenu();
 					break;
 					
 				case '3': // exit technician mode
