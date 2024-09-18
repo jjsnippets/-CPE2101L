@@ -1,42 +1,21 @@
 package vendingMachineAct;
 
-import java.util.Scanner;
-
 public class Technician extends Person{
-	static Scanner input = new Scanner(System.in);
-	static private int count = 0;
-	private int id;
+	static private int count = 0; // total number of technicians
 
+	// Technician constructor
 	public Technician(String n) {
 		super(n, 0);
 	}
 	
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	static public int getCount() {
-		return count;
-	}
-
-	static public void incCount() {
-		Technician.count++;
-	}
-
-	static public void decCount() {
-		Technician.count--;
-	}
+	// accessors and mutators
+	static public int getCount() { return count; }
+	static public void incCount() { Technician.count++; }
+	static public void decCount() { Technician.count--; }
 	
-	public void refillInventory() {
-		// code
-	}
-	
+	// other methods
 	public int matchTechnician(Technician[] names, String name) {
-		
+		// [METHOD] returns index of technician if found, -1 otherwise
 		int idx = -1;
 		for(int i = 0; i < names.length; i++) {
 			if (names[i].getName().equalsIgnoreCase(name)) {
@@ -44,11 +23,12 @@ public class Technician extends Person{
 				break;
 			}
 		}
-		
 		return idx;
 	}
 
 	public static void technicianScreen(Machine[] machines) {
+		// [MENU] initial technician mode menu
+		String name;
 		char selection;
 
 		do {
@@ -57,20 +37,18 @@ public class Technician extends Person{
 			System.out.println("[2] Exit technician mode");
 			System.out.print(" >> ");
 
-			selection = input.nextLine().toLowerCase().charAt(0);
+			selection = MainExec.input.nextLine().toLowerCase().charAt(0);
 			System.out.println();
 
 			switch (selection) {
-				case '1':
+				case '1': // Log in as a technician
 					System.out.print("Enter name >> ");
-					String name = input.nextLine();
+					name = MainExec.input.nextLine();
 					System.out.println();
 					existingTechnicianMenu(name, machines);
 					break;
 					
-				case '2':
-					System.out.println("Leaving technician mode...");
-					System.out.println();
+				case '2': // Exit technician mode
 					break;
 					
 				default:
@@ -80,9 +58,13 @@ public class Technician extends Person{
 					
 			} // end switch
 		} while (selection != '2');
+
+		System.out.println("Leaving technician mode...");
+		System.out.println();
 	}
 
-	public static int existingTechnicianMenu(String name, Machine[] machines) {
+	public static void existingTechnicianMenu(String name, Machine[] machines) {
+		// [MENU] technician menu for technician named 'name'
 		System.out.println("Welcome " + name + "!");
 		System.out.println();
 
@@ -96,22 +78,22 @@ public class Technician extends Person{
 			System.out.println("[3] Exit as " + name);
 			System.out.print(" >> ");
 			
-			selection = input.nextLine().toLowerCase().charAt(0);
+			selection = MainExec.input.nextLine().toLowerCase().charAt(0);
 			System.out.println();
 			
 			switch (selection) {
-				case '1': // see list of machines
+				case '1': // See list of machines
 					Machine.printMachines(machines);
 					break;
 					
-				case '2': // refill inventory
-					idx = Machine.loginMachineMenu(machines);
+				case '2': // Refill inventory of machine
+					idx = Machine.loginMachine(machines);
 					if (idx == -1) break;
 
 					machines[idx].maintananceMenu();
 					break;
 					
-				case '3': // exit technician mode
+				case '3': // Exit as 'name'
 					break;
 					
 				default:
@@ -121,9 +103,5 @@ public class Technician extends Person{
 					
 			} // end switch
 		} while (selection != '3');
-
-		return -1;
 	}
-
-
 }

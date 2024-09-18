@@ -2,7 +2,7 @@ package vendingMachineAct;
 
 public class Machine {
 	private static int count = 0; // total number of machines
-	private Drink[] stock = new Drink[MainExec.MAX_OBJECTS]; // list of drinks in a machine
+	private Drink[] drinks = new Drink[MainExec.MAX_OBJECTS]; // list of drinks in a machine
 	private int drinkCount = 0; // number of drinks in a machine
 	private String label, owned, password;
 	private int credit, profit;
@@ -12,28 +12,17 @@ public class Machine {
 		this.setLabel(l);
 		this.setOwned(o);
 		this.setPassword(p);
-		this.setCredit(0);
-		this.setProfit(0);
 		Machine.incCount();
 	}
 
 	// accessors and mutators
 	public static int getCount() { return Machine.count; }
 	public static void incCount() { Machine.count++; }
-	public static void decCount() { Machine.count--; }
 
-	public int getCredit() { return this.credit; }
-	public void setCredit(int amount) { this.credit = amount; }
-	public void incCredit(int amount) { this.credit += amount; }
-	public void decCredit(int amount) { this.credit -= amount; }
+	public Drink[] getDrinks() { return this.drinks; }
 
-	public int getProfit() { return this.profit; }
-	public void setProfit(int amount) { this.profit = amount; }
-	public void incProfit(int amount) { this.profit += amount; }
-	
-	public Drink[] getStock() { return stock; }
-	public int getDrinkCount() { return drinkCount; }
-	public void incDrinkCount() { this.drinkCount++; }
+	public int getDrinksCount() { return this.drinkCount; }
+	public void incDrinksCount() { this.drinkCount++; }
 
 	public String getLabel() { return label; }
 	public void setLabel(String label) { this.label = label; }
@@ -42,28 +31,56 @@ public class Machine {
 	public void setOwned(String owned) { this.owned = owned; }
 
 	public String getPassword() { return password; }
-	public void setPassword(String password) {
-		this.password = password;
-	}
+	public void setPassword(String password) { this.password = password; }
 
-	public boolean passwordCheck(String password) {
-		// [METHOD] returns TRUE if password matches, FALSE otherwise
-		if (this.getPassword().equals(password)) return true;
-		return false;
-	}
+	public int getCredit() { return this.credit; }
+	public void incCredit(int amount) { this.credit += amount; }
+	public void decCredit(int amount) { this.credit -= amount; }
 
+	public int getProfit() { return this.profit; }
+	public void setProfit(int amount) { this.profit = amount; }
+	public void incProfit(int amount) { this.profit += amount; }
+
+	// other methods
 	public static void printMachines(Machine[] machines) {
-		// [CLI] prints the list of machines
+		// [TABLE] prints the list of all machines, excluding owner and profit information
+		// {overloaded method}
 		System.out.println("@@@ List of Machines @@@");
-		System.out.printf("no %-10s%-10s%-10s\n", "Label", "Owned", "Profit");
+		System.out.printf("no %-15s%\n", "Label");
 		for(int i = 0; i < Machine.getCount(); i++) {
-			System.out.printf("%02d %-10s%-10s%-10d\n", (i + 1), machines[i].getLabel(), machines[i].getOwned(), machines[i].getProfit());
+			System.out.printf("%02d %-15s%\n", (i + 1), machines[i].getLabel(), machines[i].getOwned(), machines[i].getProfit());
 		}
 		System.out.println();
 	}
 
+	public static void printMachines(Machine[] machines, String name) {
+		// [TABLE] prints the list of machines owned by 'name'
+		// {overloaded method}
+		System.out.println("@@@ List of Machines @@@");
+		System.out.printf("no %-15s%-10s%-10s\n", "Label", "Owned", "Profit");
+		for(int i = 0, j = 1; i < Machine.getCount(); i++) {
+			if (machines[i].getOwned().equalsIgnoreCase(name)) {
+				System.out.printf("%02d %-15s%-10s%-10d\n", (j++), machines[i].getLabel(), machines[i].getOwned(), machines[i].getProfit());
+			}
+		}
+		System.out.println();
+	}
+
+	public boolean passwordCheck() {
+		// [PROMPT] returns TRUE if password matches, FALSE otherwise
+		String pass;
+		
+		System.out.print("Enter password >> ");
+		pass = MainExec.input.nextLine();
+		System.out.println();
+
+		if (this.getPassword().equals(pass)) return true;
+		return false;
+	}
+
 	public static int matchMachine(Machine[] machines, String label) {
 		// [METHOD] returns index of machine if found, -1 otherwise
+		// {overloaded method}
 		int idx = -1;
 		for(int i = 0; i < Machine.getCount(); i++) {
 			if (machines[i].getLabel().equalsIgnoreCase(label)) {
@@ -75,8 +92,9 @@ public class Machine {
 	}
 
 	public static int matchMachine(Machine[] machines) {
-		// [MENU] user interface for matching machines
+		// [PROMPT] user interface for matching machines
 		// returns index of machine if successful, -1 otherwise
+		// {overloaded method}
 		int idx;
 		String label;
 
@@ -96,9 +114,9 @@ public class Machine {
 		return idx;
 	}
 
-	public static int newMachineMenu(Machine[] machines, String name){
-		// [MENU] user interface for creating a new machine
-		// returns 0 if success
+	public static int newMachine(Machine[] machines, String owner){
+		// [PROMPT] creates a new machine
+		// returns index of new machine if successful, -1 otherwise
 		String label, pass;
 		char check;
 		int idx = Machine.getCount();
@@ -124,7 +142,7 @@ public class Machine {
 		System.out.println();
 
 		if (check == 'y') {
-			machines[idx] = new Machine(label, name, pass);
+			machines[idx] = new Machine(label, owner, pass);
 			System.out.println("Machine " + label + " created successfully!");
 			System.out.println();
 			return idx;
@@ -132,26 +150,43 @@ public class Machine {
 		} else {
 			System.out.println("Machine creation cancelled!");
 			return -1;
-
 		}
 	}
 
-	public static int loginMachineMenu(Machine[] machines){
-		// [MENU] user interface for logging in a machine as maintance
+	public static int loginMachine(Machine[] machines){
+		// [PROMPT] user interface for logging in a machine in maintance mode
 		// returns index of machine if successful, -1 if not
-		String pass;
+		// {overloaded method}
 		int idx;
 
 		printMachines(machines);
 
-		idx = matchMachine(machines, "Name of machine");
+		idx = matchMachine(machines);
 		if (idx == -1) return -1;
 
-		System.out.print("Enter password >> ");
-		pass = MainExec.input.nextLine();
-		System.out.println();
+		if (machines[idx].passwordCheck()) {
+			System.out.println("Login successful!");
+			System.out.println();
+			return idx;
+		} else {
+			System.out.println("Incorrect password!");
+			System.out.println();
+			return -1;
+		}
+	}
 
-		if (machines[idx].passwordCheck(pass)) {
+	public static int loginMachine(Machine[] machines, String owner){
+		// [PROMPT] user interface for logging in a machine in maintance mode
+		// returns index of machine if successful, -1 if not
+		// {overloaded method}
+		int idx;
+
+		printMachines(machines, owner);
+
+		idx = matchMachine(machines);
+		if (idx == -1) return -1;
+
+		if (machines[idx].passwordCheck()) {
 			System.out.println("Login successful!");
 			System.out.println();
 			return idx;
@@ -169,6 +204,7 @@ public class Machine {
 		
 		do {
 			System.out.println("### Maintainance: " + label + " ###");
+			System.out.println("Profit: " + this.getProfit());
 			System.out.println("[1] See list of drinks");
 			System.out.println("[2] Refill inventory");
 			System.out.println("[3] Change price of drink");
@@ -179,16 +215,16 @@ public class Machine {
 			System.out.println();
 			
 			switch (selection) {
-				case '1': // see list of drinks
-					Drink.printDrinks(this.getStock(), this.getDrinkCount(), label);
+				case '1': // See list of drinks
+					Drink.printDrinks(this.getDrinks(), this.getDrinksCount(), label);
 					break;
 					
-				case '2': // refill inventory
+				case '2': // Refill inventory
 					this.refillInventory();
 					break;
 				
 				case '3': // Change price of drink
-					this.changePriceMenu();
+					this.changePrice();
 					break;
 					
 				case '4':
@@ -202,19 +238,19 @@ public class Machine {
 			} // end switch
 		} while (selection != '4');
 
-		System.out.println("Leaving machine mode...");
+		System.out.println("Leaving " + label + "...");
 		System.out.println();
 	}
 
-	public void refillInventory() {
-		// [MENU] refill inventory of drinks
+	private void refillInventory() {
+		// [PROMPT] refill inventory of drinks
 		// returns 0 if successful, -1 otherwise
 
-		int idx, drinkCount = this.getDrinkCount();
+		int idx, drinkCount = this.getDrinksCount();
 		String drinkName;
 		int amount, price;
 		char check;
-		Drink[] drinks = this.getStock();
+		Drink[] drinks = this.getDrinks();
 
 		Drink.printDrinks(drinks, drinkCount, this.getLabel());
 
@@ -244,7 +280,7 @@ public class Machine {
 			System.out.println();
 
 			drinks[idx] = new Drink(drinkName, price, amount);
-			this.incDrinkCount();
+			this.incDrinksCount();
 
 			System.out.println("Added " + drinks[idx].getFullName() + " to " + this.getLabel() + "!");
 			System.out.println();
@@ -261,14 +297,14 @@ public class Machine {
 		}
 	}
 
-	private void changePriceMenu() {
-		// [MENU] user interface for changing price of a drink
+	private void changePrice() {
+		// [PROMPT] user interface for changing price of a drink
 		// returns index of drink if successful, -1 if not
 		
-		int idx, drinkCount = this.getDrinkCount();
+		int idx, drinkCount = this.getDrinksCount();
 		String drinkName;
 		int price;
-		Drink[] drinks = this.getStock();
+		Drink[] drinks = this.getDrinks();
 
 		Drink.printDrinks(drinks, drinkCount, this.getLabel());
 
@@ -310,12 +346,12 @@ public class Machine {
 			System.out.println();
 			
 			switch (selection) {
-				case '1': // insert coins
-					this.insertCoinsMenu(customer);
+				case '1': // Insert coins
+					this.insertCoins(customer);
 					break;
 					
-				case '2': // view and purchase drinks
-					this.purchaseDrinksMenu(customer);
+				case '2': // View and purchase drinks
+					this.purchaseDrinks(customer);
 					break;
 					
 				case '3':
@@ -340,9 +376,9 @@ public class Machine {
 		this.decCredit(this.getCredit());
 	}
 
-	private void insertCoinsMenu(Customer customer) {
+	private void insertCoins(Customer customer) {
 		// [MENU] user interface for inserting coins
-		int amount, eCode;
+		int amount;
 		
 		System.out.println("How much coins to insert?");
 		System.out.print(" >> ");
@@ -350,23 +386,27 @@ public class Machine {
 		amount = MainExec.input.nextInt();
 		MainExec.input.nextLine();
 		System.out.println();
-		
-		eCode = customer.insertCoins(this, amount);
-		
-		if (eCode < 0) {
+
+		if (customer.getWallet() >= amount){
+			customer.decWallet(amount);
+			this.incCredit(amount);
+			System.out.println("Increased machine credits by " + amount + "!");
+
+		} else {
 			System.out.println("You do not have enough money (of " + customer.getWallet() + ")!");
+		
 		}
 		System.out.println();
 	}
 	
-	private void purchaseDrinksMenu(Customer customer) {
-		// [MENU] user interface for purchasing drinks
-		int idx, drinkCount = this.getDrinkCount();
+	private void purchaseDrinks(Customer customer) {
+		// [PROMPT] user interface for purchasing drinks
+		int idx, drinkCount = this.getDrinksCount();
 		String drinkName;
 		int price, credit;
 		Drink[] drinks;
-		drinkCount = this.getDrinkCount();
-		drinks = this.getStock();
+		drinkCount = this.getDrinksCount();
+		drinks = this.getDrinks();
 
 		do {
 			credit = this.getCredit();
@@ -383,7 +423,7 @@ public class Machine {
 
 			idx = Drink.matchDrinks(drinks, drinkCount, drinkName);
 
-			if (idx == drinkCount){
+			if (idx == drinkCount){  // if drink not found
 				System.out.println("No drinks match your selection!");
 				System.out.println();
 
@@ -391,30 +431,23 @@ public class Machine {
 				int stock = drinks[idx].getAmount();
 				price = drinks[idx].getPrice();
 				
-				if (stock == 0) {
+				if (stock == 0) { // if drink is out of stock
 					System.out.println("Sorry but " + drinkName + " is out of stock!");
 					System.out.println();
 					
-				} else if (credit < price) {
+				} else if (credit < price) { // if not enough machine credits
 					System.out.println("Not enough credits (of " + credit + ")!");
 					System.out.println();
 					
 				} else {
-					this.dispenseDrink(drinks[idx], customer);
+					drinks[idx].decAmount();
 					System.out.println("You took " + drinks[idx].getFullName() + " out of " + this.getLabel() + "!");
 					System.out.println();
 					this.incProfit(price);
 					this.decCredit(price);
-					// increment coins
 				}
 			}
 
 		} while (true); // if (drinkName.strip().equalsIgnoreCase("exit")) return;
 	}
-
-	private void dispenseDrink(Drink drink, Customer customer) {
-		// [METHOD] dispenses a drink
-		drink.decAmount();
-	}
-
 }

@@ -1,11 +1,8 @@
 package vendingMachineAct;
 
-import java.util.Scanner;
-
 public class Owner extends Person {
 	static private int count = 0; // total number of owners
 	private String password;
-	static Scanner input = new Scanner(System.in);
 	
 	// Owner constructor
 	public Owner(String n, String p) {
@@ -18,21 +15,33 @@ public class Owner extends Person {
 	static public int getCount() { return count; }
 	static public void incCount() { Owner.count++; }
 
-	public int getCoins() { return super.getWallet(); }
-	public void setCoins(int coins) { super.setWallet(coins); }
-	public void incCoins(int coins) { super.incWallet(coins); }
-
 	public String getPassword() { return this.password; }
 	public void setPassword(String password) { this.password = password; }
 
-	public boolean passwordCheck(String password) {
-		// [METHOD] returns TRUE if password matches, FALSE otherwise
-		if (this.getPassword().equals(password)) return true;
+	// other methods
+	static public void printOwners(Owner[] owners){
+		// [TABLE] prints the list of owners
+		System.out.println("@@@ List of Owners @@@");
+		for(int i = 0; i < Owner.getCount(); i++) {
+			System.out.println((i + 1) + ": " + owners[i].getName());
+		}
+		System.out.println();
+	}
+
+	public boolean passwordCheck() {
+		// [PROMPT] returns TRUE if password matches, FALSE otherwise
+		String pass;
+		
+		System.out.print("Enter password >> ");
+		pass = MainExec.input.nextLine();
+		System.out.println();
+
+		if (this.getPassword().equals(pass)) return true;
 		else return false;
 	}
 
-	static public int matchOwner(Owner[] owners, String name) {
-		// returns index of owner if found, -1 if not
+	public static int matchOwner(Owner[] owners, String name) {
+		// [METHOD] returns index of owner if found, -1 if not
 		int idx = -1;
 		for(int i = 0; i < Owner.getCount(); i++) {
 			if (owners[i].getName().equalsIgnoreCase(name)) {
@@ -43,40 +52,8 @@ public class Owner extends Person {
 		return idx;
 	}
 	
-	public void collectProfit(Machine[] machines) {
-		String pass;
-		int idx, profit;
-
-		idx = Machine.matchMachine(machines);
-		if (idx == -1) return;
-
-		System.out.print("Enter password >> ");
-		pass = input.nextLine();
-		System.out.println();
-
-		if (machines[idx].passwordCheck(pass)) {
-			profit = machines[idx].getProfit();
-			this.incCoins(profit);
-			System.out.println("Profit of " + profit + " collected!");
-			machines[idx].setProfit(0);
-			System.out.println();
-
-		} else {
-			System.out.println("Incorrect password!");
-			System.out.println();
-		}
-	}
-
-	static public void printOwners(Owner[] owners){
-		System.out.println("=== List of Owners ===");
-		for(int i = 0; i < Owner.getCount(); i++) {
-			System.out.println((i + 1) + ": " + owners[i].getName());
-		}
-
-		System.out.println();
-	}
-
 	static public void ownerScreen(Owner[] owners, Machine[] machines) {
+		// [MENU] initial owner mode menu
 		int idx;
 		char selection;
 		
@@ -87,19 +64,19 @@ public class Owner extends Person {
 			System.out.println("[3] Exit owner mode");
 			System.out.print(" >> ");
 			
-			selection = input.nextLine().toLowerCase().charAt(0);
+			selection = MainExec.input.nextLine().toLowerCase().charAt(0);
 			System.out.println();
 			
 			switch (selection) {
-				case '1': // create new owner
-					idx = Owner.newOwnerMenu(owners);
+				case '1': // Create new owner
+					idx = Owner.newOwner(owners);
 					if (idx == -1) break;
 
 					owners[idx].existingOwnerMenu(machines);
 					break;
 
-				case '2': // owner mode
-					idx = Owner.loginOwnerMenu(owners);
+				case '2': // Log in as an existing owner
+					idx = Owner.loginOwner(owners);
 					if (idx == -1) break;
 
 					owners[idx].existingOwnerMenu(machines);
@@ -118,20 +95,19 @@ public class Owner extends Person {
 
 		System.out.println("Exiting owner mode...");
 		System.out.println();
-
 	}
 
-	static public int newOwnerMenu(Owner[] owners) {
-		// returns index of new owner if successful, -1 if not
-
+	static public int newOwner(Owner[] owners) {
+		// [PROMPT] creates a new owner
+		// returns index of new owner if successful, -1 otherwise
 		String name, pass;
 		char check;
 
 		System.out.print("Name of new owner >> ");
-		name = input.nextLine();
+		name = MainExec.input.nextLine();
 
 		System.out.print("Set password >> ");
-		pass = input.nextLine();
+		pass = MainExec.input.nextLine();
 		System.out.println();
 
 		System.out.println("Are you sure with these details?");
@@ -140,33 +116,31 @@ public class Owner extends Person {
 		System.out.println("Password: " + pass);
 		System.out.print("(y/n) >> ");
 
-		check = input.nextLine().toLowerCase().charAt(0);
+		check = MainExec.input.nextLine().toLowerCase().charAt(0);
 		System.out.println();
 
 		if (check == 'y') {
 			owners[Owner.count] = new Owner(name, pass);
 			System.out.println("New owner created!");
 			System.out.println();
-
-			return Owner.getCount() - 1;
+			return (Owner.getCount() - 1);
 
 		} else {
 			System.out.println("New owner creation cancelled!");
 			System.out.println();
-
 			return -1;
 		}
 	}
 
-	static public int loginOwnerMenu(Owner[] owners){
+	static public int loginOwner(Owner[] owners){
+		// [PROMPT] selects an existing owner in the list of owners
 		// returns index of owner if successful, -1 if not
-
-		String name, pass;
+		String name;
 		int idx;
 		printOwners(owners);
 
 		System.out.print("Name of owner >> ");
-		name = input.nextLine();
+		name = MainExec.input.nextLine();
 
 		idx = matchOwner(owners, name);
 
@@ -176,11 +150,7 @@ public class Owner extends Person {
 			return -1;
 		}
 
-		System.out.print("Enter password >> ");
-		pass = input.nextLine();
-		System.out.println();
-
-		if (owners[idx].passwordCheck(pass)) {
+		if (owners[idx].passwordCheck()) {
 			System.out.println("Login successful!");
 			System.out.println();
 			return idx;
@@ -191,9 +161,10 @@ public class Owner extends Person {
 		}
 	}
 
-	public int existingOwnerMenu(Machine[] machines) {
-		char selection;
+	public void existingOwnerMenu(Machine[] machines) {
+		// [MENU] owner mode menu as this.getName()
 		String name = this.getName();
+		char selection;
 		int idx;
 		
 		System.out.println("Good day, " + name + "!");
@@ -201,38 +172,38 @@ public class Owner extends Person {
 
 		do {
 			System.out.println("=== Owner Mode: " + name + " ===");
-			System.out.println("You currently have " + this.getCoins() + " as profit.");
-			System.out.println("[1] See list of machines");
+			System.out.println("You currently have " + this.getWallet() + " as profit.");
+			System.out.println("[1] See all machines");
 			System.out.println("[2] Add new machine");
 			System.out.println("[3] Enter machine maintenance mode");
 			System.out.println("[4] Collect profit from machine");
 			System.out.println("[5] Exit as " + name);
 			System.out.print(" >> ");
 
-			selection = input.nextLine().charAt(0);
+			selection = MainExec.input.nextLine().charAt(0);
 			System.out.println();
 
 			switch(selection) {
-				case '1': // see list of machines
+				case '1': // See all machines
 					Machine.printMachines(machines);
 					break;
 
-				case '2': // create new machine
-					idx = Machine.newMachineMenu(machines, new String(name));
+				case '2': // Add new machine
+					idx = Machine.newMachine(machines, new String(name));
 					if (idx == -1) break;
 
 					// automatically enters maintenance mode for machine
 					machines[idx].maintananceMenu();
 					break;
 
-				case '3': // enter machine maintenance mode
-					idx = Machine.loginMachineMenu(machines);
+				case '3': // Enter machine maintenance mode
+					idx = Machine.loginMachine(machines, name);
 					if (idx == -1) break;
 
 					machines[idx].maintananceMenu();
 					break;
 
-				case '4': // collect profit from machine
+				case '4': // Collect profit from machine
 					this.collectProfit(machines);
 					break;
 
@@ -248,8 +219,25 @@ public class Owner extends Person {
 
 		System.out.println("Have a nice day " + name + "!");
 		System.out.println();
+	}
 
+	public void collectProfit(Machine[] machines) {
+		// [PROMPT] collects profit from a machine
+		int idx, profit;
 
-		return -1;
+		idx = Machine.matchMachine(machines);
+		if (idx == -1) return;
+
+		if (machines[idx].passwordCheck()) {
+			profit = machines[idx].getProfit();
+			this.incWallet(profit);
+			System.out.println("Profit of " + profit + " collected!");
+			machines[idx].setProfit(0);
+			System.out.println();
+
+		} else {
+			System.out.println("Incorrect password!");
+			System.out.println();
+		}
 	}
 }

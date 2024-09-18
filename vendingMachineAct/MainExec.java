@@ -8,27 +8,31 @@ public class MainExec {
 	static Scanner input = new Scanner(System.in);
 
 	public static void main(String[] args) {
-		Machine[] machines = new Machine[MAX_OBJECTS];
-		Owner[] owners = new Owner[MAX_OBJECTS];
-		
-		// Technician technician = new Technician("techjoe");	
-		// Customer johnDoe = new Customer("jhndoe", 100);
-		
-		char mode;
+		Owner[] owners = new Owner[MAX_OBJECTS]; // shared array of owners
+		Machine[] machines = new Machine[MAX_OBJECTS]; // shared array of machines
+		char selection;
 		
 		do {
-			mode = screens();
-			
-			switch (mode) {
-				case '1': // customer mode
+			System.out.println("Run as:");
+			System.out.println("[1] Customer");
+			System.out.println("[2] Technician");
+			System.out.println("[3] Owner");
+			System.out.println("[4] Terminate program");
+			System.out.print(" >> ");
+
+			selection = input.nextLine().toLowerCase().charAt(0);
+			System.out.println();
+
+			switch (selection) {
+				case '1': // Customer mode
 					Customer.customerScreen(machines);
 					break;
 					
-				case '2': // technician mode
+				case '2': // Technician mode
 					Technician.technicianScreen(machines);
 					break;
 				
-				case '3': // owner mode
+				case '3': // Owner mode
 					Owner.ownerScreen(owners, machines);
 					break;
 					
@@ -36,33 +40,14 @@ public class MainExec {
 					break;
 					
 				default:
-					System.out.println("Invalid mode [" + mode + "] selected!");
+					System.out.println("Invalid mode [" + selection + "] selected!");
 					System.out.println();
-			
-			
+					break;
+
 			} // end switch
-			
-		} while (mode != '4');
+		} while (selection != '4');
 		
 		System.out.println("Turning off...");
 		System.out.println();
-		
-
-	}
-	
-	// initial screen / change modes screen
-	public static char screens() {
-		
-		System.out.println("Run as:");
-		System.out.println("[1] Customer");
-		System.out.println("[2] Technician");
-		System.out.println("[3] Owner");
-		System.out.println("[4] Terminate program");
-		System.out.print(" >> ");
-		
-		char x = input.nextLine().toLowerCase().charAt(0);
-		System.out.println();
-		
-		return x;
 	}
 }

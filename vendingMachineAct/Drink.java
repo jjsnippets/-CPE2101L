@@ -24,8 +24,7 @@ public class Drink {
 	public void decAmount() { this.amount--;}
 
 	public static void printDrinks(Drink[] drinks, int count, String label){
-		// [CLI] prints the list of drinks of a vending machine
-
+		// [TABLE] prints the list of drinks of a vending machine
 		System.out.printf("@@@ List of drinks in " + label + " @@@\n");
 		System.out.printf("%-20s %-10s %-10s\n", "Drink", "Price", "Avaialable");
 
@@ -37,8 +36,7 @@ public class Drink {
 	}
 
 	public static int matchDrinks(Drink[] drinks, int count, String name) {
-		// returns index of drink if found, provides the next available slot if not
-		
+		// [METHOD] returns index of drink if found, provides the next available slot if not
 		int idx = count;
 		for(int i = 0; i < count; i++) {
 			if (drinks[i].getFullName().equalsIgnoreCase(name)) {

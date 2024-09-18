@@ -5,27 +5,13 @@ import java.util.Scanner;
 public class Customer extends Person {
 	static Scanner input = new Scanner(System.in);
 	
+	// Customer constructor
 	public Customer(String n, int w) {
 		super(n, w);
 	}
 	
-	public int insertCoins(Machine machine, int toInsert) {
-		int wallet = this.getWallet();
-		
-		if (wallet >= toInsert) {
-			this.decWallet(toInsert);
-			machine.incCredit(toInsert);
-			return 0;
-		}
-			return -1;
-	}
-	
-	public void selectDrink() {
-		// code
-	}
-	
-	public static int customerScreen(Machine[] machines) {
-		
+	public static void customerScreen(Machine[] machines) {
+		// [MENU] initial customer mode menu
 		String name;
 		int idx, coins;
 		char selection;
@@ -44,11 +30,11 @@ public class Customer extends Person {
 		input.nextLine();
 		System.out.println();
 		
-		Customer jhndoe = new Customer(name, coins);
+		Customer customer = new Customer(name, coins);
 		
 		do {
-			name = jhndoe.getName();
-			coins = jhndoe.getWallet();
+			name = customer.getName();
+			coins = customer.getWallet();
 			System.out.println("### Customer subconcious: " + name + " ###");
 			System.out.println("You have " + coins + " in hand");
 			System.out.println("[1] Peruse machines");
@@ -59,16 +45,14 @@ public class Customer extends Person {
 			System.out.println();
 			
 			switch (selection) {
-				case '1': // select a machine
+				case '1': // Select a machine
 					idx = Machine.matchMachine(machines);
 					if (idx == -1) break;
 					
-					machines[idx].customerMenu(jhndoe);
-
-					
+					machines[idx].customerMenu(customer);
 					break;
 
-				case '2': // leave machines altogether
+				case '2': // Leave machines altogether
 					break;
 					
 				default:
@@ -81,9 +65,5 @@ public class Customer extends Person {
 
 		System.out.println("You left the alley-way running, as you were late...");
 		System.out.println();
-		
-		return 0;
 	}
-	
-	
 }
