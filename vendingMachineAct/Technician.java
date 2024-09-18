@@ -7,18 +7,6 @@ public class Technician extends Person{
 	}
 	
 	// other methods
-	public int matchTechnician(Technician[] names, String name) {
-		// [METHOD] returns index of technician if found, -1 otherwise
-		int idx = -1;
-		for(int i = 0; i < names.length; i++) {
-			if (names[i].getName().equalsIgnoreCase(name)) {
-				idx = i;
-				break;
-			}
-		}
-		return idx;
-	}
-
 	public static void technicianScreen(Machine[] machines) {
 		// [MENU] initial technician mode menu
 		String name;
