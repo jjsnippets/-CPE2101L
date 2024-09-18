@@ -197,7 +197,7 @@ public class Owner extends Person {
 					break;
 
 				case '3': // Enter machine maintenance mode
-					idx = Machine.loginMachine(machines, name);
+					idx = Machine.loginMachine(machines);
 					if (idx == -1) break;
 
 					machines[idx].maintananceMenu();

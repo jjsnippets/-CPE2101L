@@ -44,24 +44,10 @@ public class Machine {
 	// other methods
 	public static void printMachines(Machine[] machines) {
 		// [TABLE] prints the list of all machines, excluding owner and profit information
-		// {overloaded method}
-		System.out.println("@@@ List of Machines @@@");
-		System.out.printf("no %-15s%\n", "Label");
-		for(int i = 0; i < Machine.getCount(); i++) {
-			System.out.printf("%02d %-15s%\n", (i + 1), machines[i].getLabel(), machines[i].getOwned(), machines[i].getProfit());
-		}
-		System.out.println();
-	}
-
-	public static void printMachines(Machine[] machines, String name) {
-		// [TABLE] prints the list of machines owned by 'name'
-		// {overloaded method}
 		System.out.println("@@@ List of Machines @@@");
 		System.out.printf("no %-15s%-10s%-10s\n", "Label", "Owned", "Profit");
-		for(int i = 0, j = 1; i < Machine.getCount(); i++) {
-			if (machines[i].getOwned().equalsIgnoreCase(name)) {
-				System.out.printf("%02d %-15s%-10s%-10d\n", (j++), machines[i].getLabel(), machines[i].getOwned(), machines[i].getProfit());
-			}
+		for(int i = 0; i < Machine.getCount(); i++) {
+			System.out.printf("%02d %-15s%-10s%-10d\n", (i + 1), machines[i].getLabel(), machines[i].getOwned(), machines[i].getProfit());
 		}
 		System.out.println();
 	}
@@ -78,7 +64,7 @@ public class Machine {
 		return false;
 	}
 
-	public static int matchMachine(Machine[] machines, String label) {
+	private static int matchMachine(Machine[] machines, String label) {
 		// [METHOD] returns index of machine if found, -1 otherwise
 		// {overloaded method}
 		int idx = -1;
@@ -100,10 +86,9 @@ public class Machine {
 
 		Machine.printMachines(machines);
 
-		System.out.print("Which machine to choose?");
+		System.out.println("Which machine to choose?");
 		System.out.print(" >> ");
 		label = MainExec.input.nextLine();
-		System.out.println();
 		idx = matchMachine(machines, label);
 
 		if (idx == -1) {
@@ -156,32 +141,7 @@ public class Machine {
 	public static int loginMachine(Machine[] machines){
 		// [PROMPT] user interface for logging in a machine in maintance mode
 		// returns index of machine if successful, -1 if not
-		// {overloaded method}
 		int idx;
-
-		printMachines(machines);
-
-		idx = matchMachine(machines);
-		if (idx == -1) return -1;
-
-		if (machines[idx].passwordCheck()) {
-			System.out.println("Login successful!");
-			System.out.println();
-			return idx;
-		} else {
-			System.out.println("Incorrect password!");
-			System.out.println();
-			return -1;
-		}
-	}
-
-	public static int loginMachine(Machine[] machines, String owner){
-		// [PROMPT] user interface for logging in a machine in maintance mode
-		// returns index of machine if successful, -1 if not
-		// {overloaded method}
-		int idx;
-
-		printMachines(machines, owner);
 
 		idx = matchMachine(machines);
 		if (idx == -1) return -1;
