@@ -23,6 +23,7 @@ public class Drink {
 	public void setAmount(int amount) { this.amount = amount; }
 	public void decAmount() { this.amount--;}
 
+	// other methods
 	public static void printDrinks(Drink[] drinks, int count, String label){
 		// [TABLE] prints the list of drinks of a vending machine
 		System.out.printf("@@@ List of drinks in " + label + " @@@\n");

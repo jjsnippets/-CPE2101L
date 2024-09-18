@@ -1,17 +1,10 @@
 package vendingMachineAct;
 
 public class Technician extends Person{
-	static private int count = 0; // total number of technicians
-
 	// Technician constructor
 	public Technician(String n) {
 		super(n, 0);
 	}
-	
-	// accessors and mutators
-	static public int getCount() { return count; }
-	static public void incCount() { Technician.count++; }
-	static public void decCount() { Technician.count--; }
 	
 	// other methods
 	public int matchTechnician(Technician[] names, String name) {

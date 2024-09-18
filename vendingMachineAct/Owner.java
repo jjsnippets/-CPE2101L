@@ -1,7 +1,7 @@
 package vendingMachineAct;
 
 public class Owner extends Person {
-	static private int count = 0; // total number of owners
+	private static int count = 0; // total number of owners
 	private String password;
 	
 	// Owner constructor
@@ -12,20 +12,32 @@ public class Owner extends Person {
 	}
 
 	// accessors and mutators
-	static public int getCount() { return count; }
-	static public void incCount() { Owner.count++; }
+	public static int getCount() { return count; }
+	public static void incCount() { Owner.count++; }
 
 	public String getPassword() { return this.password; }
 	public void setPassword(String password) { this.password = password; }
 
 	// other methods
-	static public void printOwners(Owner[] owners){
+	public static void printOwners(Owner[] owners){
 		// [TABLE] prints the list of owners
 		System.out.println("@@@ List of Owners @@@");
 		for(int i = 0; i < Owner.getCount(); i++) {
 			System.out.println((i + 1) + ": " + owners[i].getName());
 		}
 		System.out.println();
+	}
+
+	public static int matchOwner(Owner[] owners, String name) {
+		// [METHOD] returns index of owner if found, -1 if not
+		int idx = -1;
+		for(int i = 0; i < Owner.getCount(); i++) {
+			if (owners[i].getName().equalsIgnoreCase(name)) {
+				idx = i;
+				break;
+			}
+		}
+		return idx;
 	}
 
 	public boolean passwordCheck() {
@@ -40,19 +52,7 @@ public class Owner extends Person {
 		else return false;
 	}
 
-	public static int matchOwner(Owner[] owners, String name) {
-		// [METHOD] returns index of owner if found, -1 if not
-		int idx = -1;
-		for(int i = 0; i < Owner.getCount(); i++) {
-			if (owners[i].getName().equalsIgnoreCase(name)) {
-				idx = i;
-				break;
-			}
-		}
-		return idx;
-	}
-	
-	static public void ownerScreen(Owner[] owners, Machine[] machines) {
+	public static void ownerScreen(Owner[] owners, Machine[] machines) {
 		// [MENU] initial owner mode menu
 		int idx;
 		char selection;
@@ -97,7 +97,7 @@ public class Owner extends Person {
 		System.out.println();
 	}
 
-	static public int newOwner(Owner[] owners) {
+	public static int newOwner(Owner[] owners) {
 		// [PROMPT] creates a new owner
 		// returns index of new owner if successful, -1 otherwise
 		String name, pass;
@@ -132,7 +132,7 @@ public class Owner extends Person {
 		}
 	}
 
-	static public int loginOwner(Owner[] owners){
+	public static int loginOwner(Owner[] owners){
 		// [PROMPT] selects an existing owner in the list of owners
 		// returns index of owner if successful, -1 if not
 		String name;

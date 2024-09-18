@@ -52,18 +52,6 @@ public class Machine {
 		System.out.println();
 	}
 
-	public boolean passwordCheck() {
-		// [PROMPT] returns TRUE if password matches, FALSE otherwise
-		String pass;
-		
-		System.out.print("Enter password >> ");
-		pass = MainExec.input.nextLine();
-		System.out.println();
-
-		if (this.getPassword().equals(pass)) return true;
-		return false;
-	}
-
 	private static int matchMachine(Machine[] machines, String label) {
 		// [METHOD] returns index of machine if found, -1 otherwise
 		// {overloaded method}
@@ -97,6 +85,18 @@ public class Machine {
 		System.out.println();
 
 		return idx;
+	}
+
+	public boolean passwordCheck() {
+		// [PROMPT] returns TRUE if password matches, FALSE otherwise
+		String pass;
+		
+		System.out.print("Enter password >> ");
+		pass = MainExec.input.nextLine();
+		System.out.println();
+
+		if (this.getPassword().equals(pass)) return true;
+		return false;
 	}
 
 	public static int newMachine(Machine[] machines, String owner){

@@ -1,15 +1,12 @@
 package vendingMachineAct;
 
-import java.util.Scanner;
-
 public class Customer extends Person {
-	static Scanner input = new Scanner(System.in);
-	
 	// Customer constructor
 	public Customer(String n, int w) {
 		super(n, w);
 	}
 	
+	// other methods
 	public static void customerScreen(Machine[] machines) {
 		// [MENU] initial customer mode menu
 		String name;
@@ -19,15 +16,15 @@ public class Customer extends Person {
 		System.out.println("You rush outside and grab your id hanging on the door");
 		System.out.println("What is your name?");
 		System.out.print(" >> ");
-		name = input.nextLine();
+		name = MainExec.input.nextLine();
 		System.out.println();
 		
 		
 		System.out.println("You look at your wallet and see some amount of money");
 		System.out.println("How much is in it?");
 		System.out.print(" >> ");
-		coins = input.nextInt();
-		input.nextLine();
+		coins = MainExec.input.nextInt();
+		MainExec.input.nextLine();
 		System.out.println();
 		
 		Customer customer = new Customer(name, coins);
@@ -41,7 +38,7 @@ public class Customer extends Person {
 			System.out.println("[2] Leave machines");
 			System.out.print(" >> ");
 			
-			selection = input.nextLine().toLowerCase().charAt(0);
+			selection = MainExec.input.nextLine().toLowerCase().charAt(0);
 			System.out.println();
 			
 			switch (selection) {
