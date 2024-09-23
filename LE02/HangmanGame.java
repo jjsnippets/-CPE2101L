@@ -2,7 +2,7 @@
 // classic hangman game
 // no lose condition, only keeps track of 
 
-package LE03;
+package LE02;
 import java.util.Scanner;
 
 public class HangmanGame {

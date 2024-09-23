@@ -13,7 +13,7 @@
 // middle name is always the second to the last word
 // all names are separated by spaces
 
-package LE02;
+package LE01;
 import java.util.Scanner;
 
 public class NameFormatter {

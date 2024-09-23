@@ -1,4 +1,4 @@
-package LE03;
+package LE02;
 
 public class HeadOrTails {
 	public static void main(String[] args) {

@@ -1,4 +1,5 @@
-package LE03;
+package LE02;
+
 import java.util.Scanner;
 
 public class DayOfWeek {
