@@ -25,7 +25,7 @@ public class Rectangle {
 	
 	// exercise-required methods
 	double getArea() {
-		return this.height * this.height * this.width * this.width;
+		return this.height * this.width;
 	}
 	
 	double getPerimeter() {
@@ -44,8 +44,8 @@ public class Rectangle {
 	// main method
 	public static void main(String[] args) {
 		// declarations
-		Rectangle r1 = new Rectangle(4.0, 20.0);
-		Rectangle r2 = new Rectangle(3.5, 39.5);
+		Rectangle r1 = new Rectangle(4.0, 40.0);
+		Rectangle r2 = new Rectangle(3.5, 35.9);
 		
 		// display of object instances
 		System.out.println("=== r1: Rectangle ===");
