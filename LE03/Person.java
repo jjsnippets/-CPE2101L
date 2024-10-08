@@ -1,3 +1,10 @@
+// LE 3.1: Person
+// Sep 24 2024
+// Demonstrates methods basics
+// no interactivity
+
+// Sample program execution ommited
+
 package  LE03;
 
 public class Person{

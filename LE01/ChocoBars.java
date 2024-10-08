@@ -1,7 +1,8 @@
-// LE13 (activity 3): Aug 22 2024
+// LE 1.3: Chocolate Bars
+// Aug 22 2024
 // implements the Harris-Benedict equation
 
-// Example program execution
+// Sample program execution
 // Enter weight (in pounds): 92
 // Enter height (in inches): 64
 // Enter age: 20

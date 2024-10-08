@@ -1,3 +1,14 @@
+// LE 2.1: Day of the Week
+// Aug 29 2024
+// implements Zeller's congruence formula
+
+// Sample program execution
+// Enter year (e.g., 2012): 2015
+// Enter month (1-12): 1
+// Enter the day of month (1-31): 25
+// Day of the week is Sunday
+
+
 package LE02;
 
 import java.util.Scanner;

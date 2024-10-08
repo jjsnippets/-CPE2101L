@@ -1,3 +1,16 @@
+// bonus activity (unchecked)
+// Aug 29 2024
+// standard craps game implementation
+// no interactivity
+
+// Sample program execution
+// You rolled 1 + 4 = 5
+// Point is 5
+// You rolled 5 + 4 = 9
+// Point is 9
+// You rolled 1 + 6 = 7
+// You lose
+
 package LE02;
 
 public class CrapsGame {

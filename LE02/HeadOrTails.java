@@ -1,3 +1,14 @@
+// LE 2.2 Simulation: Heads or Tails
+// Aug 29 2024
+// simulates 2 million coin flips and shows results afterwards
+// no interactivity
+
+// Sample program execution
+// For 2000000 flips of the coin:
+// 1000210 were heads
+// 999790 were tails
+
+
 package LE02;
 
 public class HeadOrTails {
@@ -15,8 +26,8 @@ public class HeadOrTails {
 		}
 		
 		System.out.println("For " + FLIPS + " flips of the coin:");
-		System.out.println(heads + " were  heads");
-		System.out.println(tails + " were  tails");
+		System.out.println(heads + " were heads");
+		System.out.println(tails + " were tails");
 
 	}
 }

@@ -1,7 +1,8 @@
-// LE 14 (activity 4): Aug 22 2024
+// LE 1.4: Distance between Two Points
+// Aug 22 2024
 // implements distance formula between two points
 
-// Example program execution
+// Sample program execution
 // Enter x1 and y1: 1 2
 // Enter x2 and y2: -3 4
 //

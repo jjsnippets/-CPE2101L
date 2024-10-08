@@ -1,3 +1,21 @@
+// LE 3.2: Rectangle
+// Sep 24 2024
+// Demonstrates methods basics
+// no interactivity
+
+// Sample program execution
+// === r1: Rectangle ===
+// width: 4.0
+// height: 40.0
+// area: 160.0
+// perimeter: 88.0
+// 
+// === r2: Rectangle ===
+// width: 3.5
+// height: 35.9
+// area: 125.64999999999999
+// perimeter: 78.8
+
 package LE03;
 
 public class Rectangle {

@@ -1,3 +1,24 @@
+// LE 3.3: Grade Distribution
+// Sep 24 2024
+// Displays grades in a bar graph-like format
+
+// Sample program execution
+// Enter value for A >> 1
+// Enter value for B >> 4
+// Enter value for C >> 6
+// Enter value for D >> 2
+// Enter value for F >> 1
+//
+// 0    10   20   30   40   50   60   70   80   90  100%
+// |    |    |    |    |    |    |    |    |    |   |
+// **************************************************
+// **** A 
+// ************** B 
+// ********************* C 
+// ******* D 
+// **** F 
+
+
 package LE03;
 
 import java.util.Scanner;

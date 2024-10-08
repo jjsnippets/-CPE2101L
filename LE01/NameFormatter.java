@@ -1,17 +1,18 @@
-// input name and displays in various formats
+// on-the-spot activity
 // Aug 27 2024, 9:30AM - 10:00AM
-
-// Example program execution
-// Input Complete Name: Fidel Valdez Ramos
-//
-// 1) Fidel V. Ramos
-// 2) Ramos, F. V. 
-// 3) FVRamos
+// input name and displays in various formats
 
 // assumptions
 // last name is always the last word
 // middle name is always the second to the last word
 // all names are separated by spaces
+
+// Sample program execution
+// Input Complete Name: Fidel Valdez Ramos
+//
+// 1) Fidel V. Ramos
+// 2) Ramos, F. V. 
+// 3) FVRamos
 
 package LE01;
 import java.util.Scanner;

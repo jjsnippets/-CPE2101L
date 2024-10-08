@@ -1,6 +1,29 @@
-// author: sarcol
-// classic hangman game
-// no lose condition, only keeps track of 
+// bonus activity (unchecked)
+// Aug 29 2024
+// standard hangman game
+// no lose condition, only keeps track of total attempts per round
+
+// Sample program execution
+// (Guess) Enter a letter in word ***** > w
+// (Guess) Enter a letter in word w**** > r
+// (Guess) Enter a letter in word wr*** > y
+// 	 y is not in the word
+// (Guess) Enter a letter in word wr*** > i
+// (Guess) Enter a letter in word wri** > t
+// (Guess) Enter a letter in word writ* > e
+// The word is write. You missed 1 time(s)
+// Do you  want to guess another word? Enter y or n > y
+// (Guess) Enter a letter in word ***** > c
+// (Guess) Enter a letter in word c**** > r
+// (Guess) Enter a letter in word c**r* > e
+//	 e is not in the word
+// (Guess) Enter a letter in word c**r* > d
+// (Guess) Enter a letter in word c**rd > h
+// (Guess) Enter a letter in word ch*rd > h
+//	 h is already in the word
+// (Guess) Enter a letter in word ch*rd > o
+// The word is chord. You missed 1 time(s)
+// Do you  want to guess another word? Enter y or n > n
 
 package LE02;
 import java.util.Scanner;

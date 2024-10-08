@@ -1,7 +1,8 @@
-// LE 12 (activity 2): Aug 22 2024
+// LE 1.2: Multiply the Digits
+// Aug 22 2024
 // multiplies the products of the digits in a number
 
-// Example program execution
+// Sample program execution
 // Enter a number between 0 and 1000: 932
 //
 // 2

@@ -1,7 +1,8 @@
-// LE11 (activity 1): Aug 20 2024
+// LE 1.1: Change denomination
+// Aug 20 2024
 // calculates change from cents value
 
-// Example program execution
+// Sample program execution
 // Enter amount (1 - 99) of cents: 99
 //
 // Change is: 
