@@ -2,7 +2,7 @@ package Midterms;
 
 import java.util.Scanner;
 
-public class Candidate {
+public class Candidate implements Comparable<Candidate>  {
 	private String name;
 	private String position;
 	private int votes;
@@ -49,6 +49,10 @@ public class Candidate {
 		System.out.println("Name: " + this.getName());
 		System.out.println("Position: " + this.getPosition());
 		
+	}
+
+	public int compareTo(Candidate y){
+		return y.getVotes() - this.getVotes();
 	}
 
 }

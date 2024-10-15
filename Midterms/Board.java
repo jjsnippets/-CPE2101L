@@ -1,6 +1,7 @@
 package Midterms;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 import java.util.HashSet;
 
@@ -49,6 +50,7 @@ public class Board {
 			}
 		} while (choice != 4);
 		
+		sc.close();
 	}
 	
 	private static HashSet<String> allPositions(ArrayList<Candidate> candidates) {
@@ -74,6 +76,8 @@ public class Board {
 					sumAll += candidate.getVotes();
 				}
 			}
+
+			Collections.sort(inPosition);
 			
 			System.out.println("=== " + position + " ===");
 			System.out.println("Total votes: " + sumAll);
@@ -84,18 +88,6 @@ public class Board {
 				System.out.println(" # " + candidate.getName() + " [" + candidate.getVotes() + "] (" + ((float) candidate.getVotes()*100)/sumAll + "%)");
 			}
 			System.out.println();
-			
-			
-//			for(int i = 0; i < candidates.size(); i++) {
-//				if (sorted.size() == i) {
-//					sorted.add(inPosition.get(i));
-//					continue;
-//				}
-//			}
-			
-			
-			
 		}
 	}
-	
 }
