@@ -38,4 +38,15 @@ public class Voter {
 		
 			return ret;
 	}
+
+    public static boolean randomVote(Candidate person) {
+        if (Math.random() > 0.5){
+			System.out.println("Voted for " + person.getName() + " as " + person.getPosition());
+			person.incVotes();
+			return true;
+		} else {
+			System.out.println("Did not vote for " + person.getName() + " as " + person.getPosition());
+			return false;
+		}
+    }
 }

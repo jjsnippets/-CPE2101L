@@ -22,6 +22,7 @@ public class Candidate implements Comparable<Candidate>  {
 	public String getPosition() { return this.position; }
 	
 	public int getVotes() { return this.votes; }
+	public void resetVotes() { this.votes = 0; }
 	public void incVotes() { this.votes++; }
 	
 	public static Candidate newCandidate() {
