@@ -6,15 +6,21 @@ public class Candidate implements Comparable<Candidate>  {
 	private String name;
 	private String position;
 	private int votes;
+
+	private static Scanner sc = new Scanner(System.in);
 	
-	static Scanner sc = new Scanner(System.in);
-	
+	// constructor for user-defined name and position
 	public Candidate(String name, String position) {
-		setName(name);
-		setPosition(position);
-		this.votes = 0;
+		this.setName(name);
+		this.setPosition(position);
+		this.resetVotes();
+
+		this.printOut();
+		System.out.println("Successfully added!");
+		System.out.println();
 	}
 	
+	// accessors and mutators
 	public void setName(String name) { this.name = name; }
 	public String getName() { return this.name; }
 	
@@ -25,7 +31,8 @@ public class Candidate implements Comparable<Candidate>  {
 	public void resetVotes() { this.votes = 0; }
 	public void incVotes() { this.votes++; }
 	
-	public static Candidate newCandidate() {
+	// menu for creating a new candidate manually
+	public static Candidate newCandidateMenu() {
 		Candidate person;
 		String name, position;
 		
@@ -35,25 +42,21 @@ public class Candidate implements Comparable<Candidate>  {
 		position = sc.nextLine().strip().toUpperCase();
 		System.out.println();
 		
+		System.out.println("Candidate information: ");
 		person = new Candidate(name, position);
-		person.printOut();
-		System.out.println("Number of votes: " + person.getVotes());
-		System.out.println();
-		
-		System.out.println("Successfully added!");
-		System.out.println();
 		
 		return person;
 	}
 	
+	// helper function to print out candidate information
 	public void printOut() {
 		System.out.println("Name: " + this.getName());
 		System.out.println("Position: " + this.getPosition());
 		
 	}
 
+	// compareTo method for sorting
 	public int compareTo(Candidate y){
 		return y.getVotes() - this.getVotes();
 	}
-
 }

@@ -1,22 +1,37 @@
 package Midterms;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Voter {
+	private static Scanner sc = new Scanner(System.in);
+
+	// driver function for manual voting with a ballot
+	public static void voterMenu(ArrayList<Candidate> candidates) {
+		System.out.println("=== BALLOT ===");
+		System.out.println("Reminder to always vote wisely!");
+		System.out.println();
+
+		// loop through all candidates
+		for (Candidate candidate : candidates) {
+			Voter.singleVote(candidate);
+		}
+	}
 	
-	static Scanner sc = new Scanner(System.in);
-	
+	// helper function to vote for a single candidate manually
 	public static boolean singleVote(Candidate person) {
 		char choice;
 		boolean hasVoted = false, ret = false;
 		
 		do {
+			// voter prompt and input for voting
 			person.printOut();
-			System.out.print("Vote for this person?");
+			System.out.println("Vote for this person?");
 			System.out.print("[Y/N] >> ");
 			choice = sc.nextLine().strip().toUpperCase().charAt(0);
 			System.out.println();
 			
+			// feedback to voter input
 			if (choice == 'Y') {
 				hasVoted = true;
 				ret = true;
@@ -30,7 +45,6 @@ public class Voter {
 				
 			} else {
 				System.out.println("Invalid selection!");
-				
 			}
 			
 			System.out.println();
@@ -39,8 +53,9 @@ public class Voter {
 			return ret;
 	}
 
+	// helper function to vote for a single candidate randomly
     public static boolean randomVote(Candidate person) {
-        if (Math.random() > 0.5){
+        if (Math.random() > 0.5){ // 50% chance of voting for the candidate
 			System.out.println("Voted for " + person.getName() + " as " + person.getPosition());
 			person.incVotes();
 			return true;
