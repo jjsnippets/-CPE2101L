@@ -69,7 +69,7 @@ public class Board {
 	}
 
 	// driver function that simulates an election
-	public static void simulateElection(){
+	private static void simulateElection(){
 		char choice;
 
 		do {
