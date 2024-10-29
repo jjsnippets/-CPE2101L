@@ -6,7 +6,7 @@
 [A] SET PIN
 [B] TEST PIN
 [O] EXIT
- >> a
+ >> A
 
 SET PIN TO? [5 DIGITS]
  >> 12345
@@ -16,29 +16,29 @@ PASSWORD SET TO 12345
 [A] SET PIN
 [B] TEST PIN
 [O] EXIT
- >> b
+ >> B
 
 PIN : 0 1 2 3 4 5 6 7 8 9 
-NUM : 8 2 1 1 6 7 7 8 2 6 
-ENTER PASSWORD >> 21167
+NUM : 0 9 0 5 5 3 9 7 3 5 
+ENTER PASSWORD >> 90553
 
 CORRECT PASSWORD!
 
 [A] SET PIN
 [B] TEST PIN
 [O] EXIT
- >> b
+ >> B
 
 PIN : 0 1 2 3 4 5 6 7 8 9 
-NUM : 7 5 1 1 8 1 3 9 0 8 
-ENTER PASSWORD >> 77777
+NUM : 2 5 1 6 7 9 7 4 4 5 
+ENTER PASSWORD >> 22222
 
 WRONG PASSWORD!
 
 [A] SET PIN
 [B] TEST PIN
 [O] EXIT
- >> o
+ >> O
 
 Closing PIN system!
 */
@@ -142,7 +142,7 @@ public class PasswordAuth {
 		System.out.println("SET PIN TO? [5 DIGITS]");
 		System.out.print(" >> ");
 
-		this.setPassword(sc.nextLine().strip());
+		this.setPassword(sc.nextLine().strip().substring(0, 5));
 		System.out.println();
 		
 		System.out.println("PASSWORD SET TO " + this.getPassword());
