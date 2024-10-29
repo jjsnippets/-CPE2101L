@@ -1,29 +1,74 @@
-// LE5.3
+// LE 5.3
 // Oct 29 2024
 // PIN Authentication system with randomized challenge-response system
+
+/* Sample program execution
+[A] SET PIN
+[B] TEST PIN
+[O] EXIT
+ >> a
+
+SET PIN TO? [5 DIGITS]
+ >> 12345
+
+PASSWORD SET TO 12345
+
+[A] SET PIN
+[B] TEST PIN
+[O] EXIT
+ >> b
+
+PIN : 0 1 2 3 4 5 6 7 8 9 
+NUM : 8 2 1 1 6 7 7 8 2 6 
+ENTER PASSWORD >> 21167
+
+CORRECT PASSWORD!
+
+[A] SET PIN
+[B] TEST PIN
+[O] EXIT
+ >> b
+
+PIN : 0 1 2 3 4 5 6 7 8 9 
+NUM : 7 5 1 1 8 1 3 9 0 8 
+ENTER PASSWORD >> 77777
+
+WRONG PASSWORD!
+
+[A] SET PIN
+[B] TEST PIN
+[O] EXIT
+ >> o
+
+Closing PIN system!
+*/
 
 package LE05;
 
 import java.util.Scanner;
 
 public class PasswordAuth {
+	// class attributes
 	private String password;
+	private static Scanner sc = new Scanner(System.in); // for convenience
 	
-	private static Scanner sc = new Scanner(System.in);
+	// default constructor
 	
-	private void setPassword(String pass) {
-		this.password = pass;
-	}
-	
+	// accessors and mutators
+	private void setPassword(String pass) { this.password = pass; }
 	private String getPassword() {
 		return this.password;
 	}
 	
+	// main method
 	public static void main(String[] args) {
+		// declarations
 		PasswordAuth pass = new PasswordAuth();
 		char choice;
 		
+		
 		do {
+			// user menu prompt
 			System.out.println("[A] SET PIN");
 			System.out.println("[B] TEST PIN");
 			System.out.println("[O] EXIT");
@@ -33,17 +78,15 @@ public class PasswordAuth {
 			System.out.println();
 			
 			switch (choice) {
-				case 'A':
+				case 'A': // set PIN
 					pass.setPassMenu();
-
 					break;
 				
-				case 'B':
+				case 'B': // test PIN
 					pass.enterPassMenu();
-					
 					break;
 					
-				case 'O':
+				case 'O': // exit
 					break;
 				
 				default:
@@ -54,42 +97,47 @@ public class PasswordAuth {
 		
 		System.out.println("Closing PIN system!");
 		System.out.println();
-
 	}
 	
+	// provides a random assignment scheme
+	// returns the corresponding password under this scheme
 	private String challengePass() {
 		int[] passNums = new int[5];
 		char[] shuffle = new char[10];
-		char[] temp = this.getPassword().toCharArray();
 		String ans;
 		
+		// converts type from String to int[]
+		char[] temp = this.getPassword().toCharArray();
 		for(int i = 0; i < 5; i++) {
 			passNums[i] = Integer.valueOf(String.valueOf(temp[i]));
 		}
 		
-		System.out.print("PIN : ");
-		
+		// generates a random assignment scheme
 		for(int i = 0; i < 10; i++) {
-			System.out.print(i + " ");
 			shuffle[i] = Character.forDigit(((int) (Math.random() * 10)), 10);
 		}
 		
-		System.out.println();
-		System.out.print("NUM : ");
-		
-		for(char i : shuffle) {
-			System.out.print(i + " ");
-		}
-		System.out.println();
-		
+		// mapping using assignment scheme
 		for(int i = 0; i < 5; i++) {
 			temp[i] = shuffle[passNums[i]];
 		}
-		
 		ans = String.valueOf(temp);
+		
+		// print-out
+		System.out.print("PIN : ");
+		for(int i = 0; i < 10; i++)
+			System.out.print(i + " ");
+		System.out.println();
+		
+		System.out.print("NUM : ");
+		for(char i : shuffle)
+			System.out.print(i + " ");
+		System.out.println();
+		
 		return ans;
 	}
 	
+	// menu for setting the pin manually
 	public void setPassMenu() {
 		System.out.println("SET PIN TO? [5 DIGITS]");
 		System.out.print(" >> ");
@@ -101,6 +149,7 @@ public class PasswordAuth {
 		System.out.println();
 	}
 	
+	// menu for entering the pin manually
 	public void enterPassMenu() {
 		String attempt;
 		String soln = this.challengePass();
