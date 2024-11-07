@@ -117,6 +117,9 @@ public class Billing {
             printBillings(billings);
             incomeStatement(billings);
 
+            Patient.allPatients(billings);
+            Doctor.allDoctors(billings);
+
             // reset for main code
             billings.clear();
             System.out.println();
@@ -131,6 +134,8 @@ public class Billing {
             // user menu prompt
 			System.out.println("[B] ADD BILLING");
 			System.out.println("[I] SHOW INCOME STATEMENT");
+            System.out.println("[P] SHOW ALL PATIENTS");
+            System.out.println("[D] SHOW ALL DOCTORS");
 			System.out.println("[X] EXIT");
 			System.out.print(" >> ");
 			
@@ -147,6 +152,14 @@ public class Billing {
                     System.out.println();
                     break;
 
+                case 'P': // show all patients
+                    Patient.allPatients(billings);
+                    break;
+
+                case 'D': // show all doctors
+                    Doctor.allDoctors(billings);
+                    break;
+
                 case 'X': // exit
                     break;
 
@@ -155,7 +168,7 @@ public class Billing {
                     System.out.println();
 
             }
-        } while (choice != 'O');
+        } while (choice != 'X');
         System.out.println("Thank you for using patient-billing system!");
         System.out.println();
 
@@ -197,5 +210,13 @@ public class Billing {
         System.out.println();
         System.out.printf("%-20s\t: %.2f\n", "Total Billings ", total);
         System.out.println("====================");
+    }
+
+    public Patient getPatient() {
+        return this.patient;
+    }
+
+    public Doctor getDoctor() {
+        return this.doctor;
     }
 }
