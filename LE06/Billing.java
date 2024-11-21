@@ -110,7 +110,9 @@ public class Billing {
 
             // testing equals methods
             System.out.println("Dr. A equals Dr. B? " + doc1.equals(doc2));
-            System.out.println("Alice equals Alice? " + pat1.equals(pat1));
+            System.out.println("Dr. C equals Dr. C? " + doc3.equals(doc3));
+            System.out.println("Alice equals Bob? " + pat1.equals(pat2));
+            System.out.println("Charlie equals Charlie? " + pat3.equals(pat3));
             System.out.println();
 
             // display all billings
@@ -155,7 +157,7 @@ public class Billing {
                     System.out.println();
 
             }
-        } while (choice != 'O');
+        } while (choice != 'X');
         System.out.println("Thank you for using patient-billing system!");
         System.out.println();
 
@@ -191,7 +193,7 @@ public class Billing {
         System.out.println("=== Income Statement ===");
         double total = 0.0;
         for (Billing billing : billings) {
-            System.out.printf("%-20s\t: %.2f\n", billing.doctor.getName() + " from " + billing.patient.getName(), billing.doctor.getVisitFee());
+            System.out.printf("%-20s\t: %.2f\n", billing.doctor.getName() + " (" + billing.patient.getName() + ")", billing.doctor.getVisitFee());
             total += billing.doctor.getVisitFee();
         }
         System.out.println();
