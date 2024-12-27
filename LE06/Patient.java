@@ -1,6 +1,7 @@
 package LE06;
 
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Patient extends Person {
     // class attributes
@@ -49,5 +50,17 @@ public class Patient extends Person {
         patient.setPatientID(sc.nextLine().strip());
 
         return patient;
+    }
+
+    public String toString(){
+        return "Patient Name: " + this.getName() + "\nPatient ID: " + this.getPatientID() + "\n";
+    }
+
+    public static void allPatients(ArrayList<Billing> billings){
+        System.out.println("=== All Patients ===");
+        for (Billing billing : billings) {
+            System.out.println(billing.getPatient().toString());
+        }
+        System.out.println("====================");
     }
 }

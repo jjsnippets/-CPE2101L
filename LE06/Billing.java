@@ -110,12 +110,17 @@ public class Billing {
 
             // testing equals methods
             System.out.println("Dr. A equals Dr. B? " + doc1.equals(doc2));
-            System.out.println("Alice equals Alice? " + pat1.equals(pat1));
+            System.out.println("Dr. C equals Dr. C? " + doc3.equals(doc3));
+            System.out.println("Alice equals Bob? " + pat1.equals(pat2));
+            System.out.println("Charlie equals Charlie? " + pat3.equals(pat3));
             System.out.println();
 
             // display all billings
             printBillings(billings);
             incomeStatement(billings);
+
+            Patient.allPatients(billings);
+            Doctor.allDoctors(billings);
 
             // reset for main code
             billings.clear();
@@ -131,6 +136,8 @@ public class Billing {
             // user menu prompt
 			System.out.println("[B] ADD BILLING");
 			System.out.println("[I] SHOW INCOME STATEMENT");
+            System.out.println("[P] SHOW ALL PATIENTS");
+            System.out.println("[D] SHOW ALL DOCTORS");
 			System.out.println("[X] EXIT");
 			System.out.print(" >> ");
 			
@@ -147,6 +154,14 @@ public class Billing {
                     System.out.println();
                     break;
 
+                case 'P': // show all patients
+                    Patient.allPatients(billings);
+                    break;
+
+                case 'D': // show all doctors
+                    Doctor.allDoctors(billings);
+                    break;
+
                 case 'X': // exit
                     break;
 
@@ -155,7 +170,7 @@ public class Billing {
                     System.out.println();
 
             }
-        } while (choice != 'O');
+        } while (choice != 'X');
         System.out.println("Thank you for using patient-billing system!");
         System.out.println();
 
@@ -191,11 +206,19 @@ public class Billing {
         System.out.println("=== Income Statement ===");
         double total = 0.0;
         for (Billing billing : billings) {
-            System.out.printf("%-20s\t: %.2f\n", billing.doctor.getName() + " from " + billing.patient.getName(), billing.doctor.getVisitFee());
+            System.out.printf("%-20s\t: %.2f\n", billing.doctor.getName() + " (" + billing.patient.getName() + ")", billing.doctor.getVisitFee());
             total += billing.doctor.getVisitFee();
         }
         System.out.println();
         System.out.printf("%-20s\t: %.2f\n", "Total Billings ", total);
         System.out.println("====================");
+    }
+
+    public Patient getPatient() {
+        return this.patient;
+    }
+
+    public Doctor getDoctor() {
+        return this.doctor;
     }
 }
